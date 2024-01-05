@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <title>MosTourism</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-md sticky-top bg-light">
+    <div class="container-xxl">
+      <a href="#intro" class="navbar-brand">
+        <img src="img/logo.png">
+        <span class="fw-bold">
+          МосТуризм
+        </span>
+      </a>
+      <!-- toggler btn for mobile nav -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- navbar links -->
+      <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+        <ul class="navbar-nav">
+          <li class="navbar-item">
+            <a href="#facts" class="nav-link">О нас</a>
+          </li>
+          <li class="navbar-item">
+            <a href="#routs" class="nav-link">Маршруты</a>
+          </li>
+          <li class="navbar-item">
+            <a href="#profile" class="nav-link">Личный Кабинет</a>
+          </li>
+          <li class="navbar-item d-md-none">
+            <button class="nav-link" id="btnThemeSwitch"><i class="bi bi-brightness-high-fill" id="themeIcon"></i> Сменить тему </button>
+          </li>
+          <li class="navbar-item d-none d-md-inline">
+            <button class="btn shadow ms-3" id="btnThemeInlineSwitch"><i class="bi bi-brightness-high-fill" id="themeInlineIcon"></i></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="intro">
+    <div class="container-lg">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-md-5 text-center text-md-start">
+          <h1>
+            <div class="display-2">МосТуризм</div>
+            <div class="display-5 text-muted">Lorem ipsum dolor sit.</div>
+          </h1>
+          <p class="lead my-3 text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+          <a href="#routs" class="btn btn-secondary btn-lg">Выбрать маршрут</a>
+        </div>
+        <div class="col-md-5 text-center">
+          <img class="img-fluid rounded-5 mt-3 mt-md-0" src="/img/introLogo.jpg" alt="intro logo">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-light mt-5" id="facts">
+    <div class="container-lg">
+      <div class="text-center">
+        <h2>Взгляни на старую Москву по Новому</h2>
+        <p class="lead text-muted">Качество наших услуг выше Москва-Сити</p>
+      </div>
+      <div class="row my-5 align-items-center justify-content-center g-0">
+        <div class="col-8 col-lg-4 col-xl-3">
+          <div class="card border-0 rounded-5 rounded-end">
+            <img src="/img/languages.jpg" alt="languages" class="card-img-top rounded-5">
+            <div class="card-body text-center py-4">
+              <h4 class="card-title">Экскурсия на любом языке</h4>
+              <p class="lead card-subtitle">Знания на уровне носителя</p>
+              <p class="card-text mt-2 text-muted d-none d-lg-block">Наши гиды владеют несколькими языками, вы сможете найти професионала под свои нужды.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-9 col-lg-4">
+          <div class="card border-primary border-2 rounded-4">
+            <img src="/img/transfer.png" alt="transfer" class="card-img-top rounded-5">
+            <div class="card-header text-center text-primary">Уникальное предложение</div>
+            <div class="card-body text-center py-4">
+              <h4 class="card-title">Персональный трансфер</h4>
+              <p class="lead card-subtitle">Экономия вашего времени</p>
+              <p class="card-text mt-2 text-muted d-none d-lg-block">Авто VIP класса довезёт вас до ближайше станции метро после экскурсии.</p>
+              <a href="#" class="btn btn-outline-primary btn-lg mt-3">Выбрать маршрут</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-8 col-lg-4 col-xl-3">
+          <div class="card border-0 rounded-5 rounded-start">
+            <img src="/img/fast.jpeg" alt="fast" class="card-img-top rounded-5">
+            <div class="card-body text-center py-4">
+              <h4 class="card-title">Экскурсия в любое время</h4>
+              <p class="lead card-subtitle">Быстрый выезд гида</p>
+              <p class="card-text mt-2 text-muted d-none d-lg-block">Если вам срочна нужна экскурсия в определённое время, наши гиды выедут мгновенно специально для вас.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-0" id="routs">
+    <div class="display-2 text-center">Маршруты</div>
+    <table class="table container-xxl text-center mt-5 table-striped-columns">
+      <thead>
+        <tr>
+          <th scope="col">Название</th>
+          <th scope="col">Описание</th>
+          <th scope="col">Основные объекты</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </section>
+
+  <script src="settings.js"></script>
+  <script src="scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
