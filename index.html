@@ -138,8 +138,24 @@
     </nav>
   </section>
 
-  <section class="tourGuide">
+  <section class="bg-light d-none" id="tourGuide">
     <div class="display-2 text-center">Гиды по маршруту</div>
+    <div class="container-lg">
+      <div class="row justify-content-between mt-3 text-center">
+        <div class="col-5 col-md-3">
+          <select class="form-select" aria-label="Default select example" id="guidesSelect">
+          </select>
+        </div>
+        <div class="col-5 col-md-3 justify-content-between">
+          <label for="customRange2" class="form-label">Опыт работы</label>
+          <div class="d-flex align-items-center">
+            <span class="me-2" id="minSliderValue"> 0 </span>
+              <input type="range" class="form-range" min="0" max="5" id="customRange2" value="0">
+            <span class="ms-2" id="maxSliderValue"> 5 </span>
+          </div>
+        </div>
+      </div>
+    </div>
     <table class="table container-xxl text-center align-middle mt-3 table-striped-columns">
       <thead>
         <tr>

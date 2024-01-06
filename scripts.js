@@ -43,6 +43,7 @@ async function paginationMain() {
         const end = start + rowsPerPage;
         const paginatedData = arrData.slice(start, end);
         const propertiesOrder = ['name', 'description', 'mainObject'];
+
         for (key in paginatedData) {
             const newRow = document.createElement('tr');
             for (prop of propertiesOrder) {
@@ -51,15 +52,19 @@ async function paginationMain() {
                 th.textContent = `${paginatedData[key][prop]}`;
                 newRow.appendChild(th);
             }
+
             const thWithButton = document.createElement('th');
             thWithButton.setAttribute('scope', 'col'); 
             const button = document.createElement('button');
             button.className = 'btn btn-outline-primary';
             button.textContent = 'Выбрать';
             button.dataset.id = paginatedData[key]["id"];
+
             button.addEventListener("click", async () => {
-                await displayTourGuidesData(button.dataset.id);
+                await mainTourGuidesData(button.dataset.id);
+                document.getElementById("tourGuide").classList.remove('d-none');
             });
+
             thWithButton.appendChild(button);
             newRow.appendChild(thWithButton);
             tableEl.appendChild(newRow);
@@ -79,6 +84,7 @@ async function paginationMain() {
         prevSpan.setAttribute('aria-hidden', 'true');
         prevSpan.textContent = '«';
         prevA.appendChild(prevSpan);
+
         prevA.addEventListener('click', () => {
             event.preventDefault();
             if (currentPage - 1 > 0){
@@ -90,6 +96,7 @@ async function paginationMain() {
             }
             displayList(arrData, rows, currentPage);
         });
+
         prevLi.appendChild(prevA);
         paginationEl.appendChild(prevLi);
         for (let i = 0; i < pagesCount; i++) {
@@ -106,6 +113,7 @@ async function paginationMain() {
         const nextSpan = document.createElement('span');
         nextSpan.setAttribute('aria-hidden', 'true');
         nextSpan.textContent = '»';
+
         nextA.addEventListener('click', () => {
             event.preventDefault();
             if (currentPage + 1 <= pagesCount){
@@ -117,9 +125,11 @@ async function paginationMain() {
             }
             displayList(arrData, rows, currentPage);
         });
+
         nextA.appendChild(nextSpan);
         nextLi.appendChild(nextA);
         paginationEl.appendChild(nextLi);
+
         const buttons = document.querySelectorAll('.pagination .page-link');
         buttons.forEach(button => {
             if (button.textContent.trim() === '1') {
@@ -127,6 +137,7 @@ async function paginationMain() {
             }
         });
     }
+
     function displayPaginationBtn(page, data) {
         const liEl = document.createElement('li');
         liEl.classList.add('page-item');
@@ -205,32 +216,103 @@ async function paginationMain() {
     displaySelect(trimedData);
 }
 
-async function displayTourGuidesData(id){
-    const tableEl = document.getElementById('tableTourGuides');
-    tableEl.innerHTML = ''; 
+async function mainTourGuidesData(id){
     const tourGuidesData = await getRoutGuidesData(id);
-    const propertiesOrder = ['name', 'language', 'workExperience', 'pricePerHour'];
-    for (key in tourGuidesData) {
-        const newRow = document.createElement('tr');
-        for (prop of propertiesOrder) {
-            const th = document.createElement('th');
-            th.setAttribute('scope', 'col');
-            th.textContent = `${tourGuidesData[key][prop]}`;
-            newRow.appendChild(th);
+    const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
+    const maxWorkExperience = Math.max(...workExperienceValues);
+    const minWorkExperience = Math.min(...workExperienceValues);
+    const slider = document.getElementById("customRange2");
+    document.getElementById("minSliderValue").textContent = minWorkExperience;
+    document.getElementById("maxSliderValue").textContent = maxWorkExperience;
+    slider.min = minWorkExperience;
+    slider.max = maxWorkExperience;
+    const selectLangugageEl = document.getElementById("guidesSelect");
+
+    displayTourGuidesData(tourGuidesData);
+
+    function displayTourGuidesData(data) {
+        const tableEl = document.getElementById('tableTourGuides');
+        tableEl.innerHTML = ''; 
+        const propertiesOrder = ['name', 'language', 'workExperience', 'pricePerHour'];
+        for (key in data) {
+            const newRow = document.createElement('tr');
+            for (prop of propertiesOrder) {
+                const th = document.createElement('th');
+                th.setAttribute('scope', 'col');
+                th.textContent = `${data[key][prop]}`;
+                newRow.appendChild(th);
+            }
+            const thWithButton = document.createElement('th');
+            thWithButton.setAttribute('scope', 'col'); 
+            const button = document.createElement('button');
+            button.className = 'btn btn-outline-primary';
+            button.textContent = 'Выбрать';
+            thWithButton.appendChild(button);
+            newRow.appendChild(thWithButton);
+            tableEl.appendChild(newRow);
+        };
+    }
+
+    function displaySelectLanguage(dataArr) {
+        let uniqueValues = [];
+        const selectEl = document.getElementById("guidesSelect");
+        selectEl.innerHTML = "";
+        const firstSelectOptionEl = document.createElement('option');
+        firstSelectOptionEl.textContent = 'Выбрать язык экскурсии';
+        selectEl.appendChild(firstSelectOptionEl);
+
+        dataArr.forEach(item => {
+            if (!uniqueValues.includes(item['language'])) {
+                uniqueValues.push(item['language'])
+                const newSelectOptionEl = document.createElement('option');
+                newSelectOptionEl.textContent = item['language'];
+                newSelectOptionEl.value = item['language'];
+                selectEl.appendChild(newSelectOptionEl);
+            }
+        })
+    }
+
+    let selectedValue;
+
+    function sliderSort(SliderValue, data){
+        return filteredDataSlider = data.filter(item => item.workExperience >= SliderValue && item.workExperience <= slider.max);
+    }
+
+    slider.addEventListener('input', () => {
+        if (selectLangugageEl.value == "Выбрать язык экскурсии") {
+            displayTourGuidesData(sliderSort(slider.value, tourGuidesData));
         }
-        const thWithButton = document.createElement('th');
-        thWithButton.setAttribute('scope', 'col'); 
-        const button = document.createElement('button');
-        button.className = 'btn btn-outline-primary';
-        button.textContent = 'Выбрать';
-        // button.dataset.id = paginatedData[key]["id"];
-        // button.addEventListener("click", async () => {
-        //     await displayTourGuidesData(button.dataset.id);
-        // });
-        thWithButton.appendChild(button);
-        newRow.appendChild(thWithButton);
-        tableEl.appendChild(newRow);
-    };
+        else {
+            displayTourGuidesData(sliderSort(slider.value, selectSort(selectedValue, tourGuidesData)));
+        }
+    });    
+
+    function selectSort(SelectValue, data) {
+        return filteredDataSelect = data.filter(item => item.language.toLowerCase().includes(SelectValue.toLowerCase()));
+    }
+
+    selectLangugageEl.addEventListener("change", function() {
+        selectedValue = this.value;
+        if (slider.value == minWorkExperience) {
+            if (selectedValue !== "Выбрать язык экскурсии") {
+                displayTourGuidesData(selectSort(selectedValue, tourGuidesData));
+            }
+            else {
+                displayTourGuidesData(tourGuidesData);
+            }
+        }
+        else {
+            if (selectedValue !== "Выбрать язык экскурсии") {
+                displayTourGuidesData(sliderSort(slider.value, selectSort(selectedValue, tourGuidesData)));
+            }
+            else {
+                displayTourGuidesData(sliderSort(slider.value, tourGuidesData));
+            }
+        }
+    })
+
+    displaySelectLanguage(tourGuidesData);
+    console.log(slider.value)
 }
 
 paginationMain()
