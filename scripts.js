@@ -49,7 +49,6 @@ async function paginationMain() {
                 const th = document.createElement('th');
                 th.setAttribute('scope', 'col');
                 th.textContent = `${paginatedData[key][prop]}`;
-                console.log(paginatedData[key][prop]);
                 newRow.appendChild(th);
             }
             const thWithButton = document.createElement('th');
@@ -143,7 +142,6 @@ async function paginationMain() {
             currentPage = page;
             liEl.classList.add('active');
             displayList(data, rows, currentPage);
-            console.log(currentPage + " = click")
         });
         return liEl;
     }
@@ -211,7 +209,7 @@ async function displayTourGuidesData(id){
     const tableEl = document.getElementById('tableTourGuides');
     tableEl.innerHTML = ''; 
     const tourGuidesData = await getRoutGuidesData(id);
-    const propertiesOrder = ['name', 'language', 'workExpirience', 'pricePerHour'];
+    const propertiesOrder = ['name', 'language', 'workExperience', 'pricePerHour'];
     for (key in tourGuidesData) {
         const newRow = document.createElement('tr');
         for (prop of propertiesOrder) {
