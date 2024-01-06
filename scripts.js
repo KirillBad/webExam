@@ -208,6 +208,8 @@ async function paginationMain() {
 }
 
 async function displayTourGuidesData(id){
+    const tableEl = document.getElementById('tableTourGuides');
+    tableEl.innerHTML = ''; 
     const tourGuidesData = await getRoutGuidesData(id);
     const propertiesOrder = ['name', 'language', 'workExpirience', 'pricePerHour'];
     for (key in tourGuidesData) {
