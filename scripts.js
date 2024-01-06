@@ -183,7 +183,11 @@ async function paginationMain() {
             );
             displayList(filteredData, rows, currentPage);
             displayPagination(filteredData, rows);
-        };
+        }
+        else {
+            displayList(routsData, rows, currentPage);
+            displayPagination(routsData, rows);
+        }
     })
 
     displayList(routsData, rows, currentPage);
