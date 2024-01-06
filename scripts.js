@@ -136,6 +136,7 @@ async function paginationMain() {
             thirdSplitedValues.forEach(value => {
                 if (!uniqueValues.includes(value)) {
                     uniqueValues.push(value)
+                    const selectEl = document.getElementById("routsSelect");
                     const newSelectOptionEl = document.createElement('option');
                     newSelectOptionEl.textContent = value;
                     newSelectOptionEl.value = value;
