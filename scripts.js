@@ -215,7 +215,7 @@ async function displayTourGuidesData(id){
         for (prop of propertiesOrder) {
             const th = document.createElement('th');
             th.setAttribute('scope', 'col');
-            th.textContent = `${paginatedData[key][prop]}`;
+            th.textContent = `${tourGuidesData[key][prop]}`;
             newRow.appendChild(th);
         }
         const thWithButton = document.createElement('th');
