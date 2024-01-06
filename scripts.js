@@ -19,11 +19,10 @@ function truncateStrings(data, maxLength, keys) {
     return data;
 }
 
-let routsData;
 async function paginationMain() {
     let currentPage = 1;
     let rows = 5;
-    routsData = await getRoutsData();
+    const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
     const trimedData = truncateStrings(routsData, 250, trimingOrder)
     function displayList(arrData, rowsPerPage, page) {
@@ -83,6 +82,7 @@ async function paginationMain() {
             const liEl = displayPaginationBtn(i + 1, arrData);
             paginationEl.appendChild(liEl);
         }
+
         const nextLi = document.createElement('li');
         nextLi.classList.add('page-item');
         const nextA = document.createElement('a');
@@ -106,6 +106,12 @@ async function paginationMain() {
         nextA.appendChild(nextSpan);
         nextLi.appendChild(nextA);
         paginationEl.appendChild(nextLi);
+        const buttons = document.querySelectorAll('.pagination .page-link');
+        buttons.forEach(button => {
+            if (button.textContent.trim() === '1') {
+                button.parentElement.classList.add('active');
+            }
+        });
     }
     function displayPaginationBtn(page, data) {
         const liEl = document.createElement('li');
@@ -122,6 +128,7 @@ async function paginationMain() {
             currentPage = page;
             liEl.classList.add('active');
             displayList(data, rows, currentPage);
+            console.log(currentPage + " = click")
         });
         return liEl;
     }
@@ -154,8 +161,14 @@ async function paginationMain() {
         const filteredData = trimedData.filter(item =>
             item.name.toLowerCase().includes(searchText)
         );
-        displayList(filteredData, rows, currentPage);
+        displayList(filteredData, rows, 1);
         displayPagination(filteredData, rows);
+        const buttons = document.querySelectorAll('.pagination .page-link');
+        buttons.forEach(button => {
+            if (button.textContent.trim() === '1') {
+                button.parentElement.classList.add('active');
+            }
+        });
     })
 
     document.getElementById("routsSelect").addEventListener("change", function() {
@@ -165,11 +178,11 @@ async function paginationMain() {
             const filteredData = trimedData.filter(item =>
                 item.mainObject.toLowerCase().includes(selectedValue.toLowerCase())
             );
-            displayList(filteredData, rows, currentPage);
+            displayList(filteredData, rows, 1);
             displayPagination(filteredData, rows);
         }
         else {
-            displayList(trimedData, rows, currentPage); 
+            displayList(trimedData, rows, 1); 
             displayPagination(trimedData, rows);
         }
     })
