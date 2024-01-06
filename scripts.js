@@ -25,7 +25,7 @@ async function paginationMain() {
     let rows = 5;
     routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
-    trimedData = truncateStrings(routsData, 250, trimingOrder)
+    const trimedData = truncateStrings(routsData, 250, trimingOrder)
     function displayList(arrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableRouts');
         tableEl.innerHTML = ''; 
@@ -148,11 +148,8 @@ async function paginationMain() {
 
     document.getElementById("routsSearch").addEventListener("keyup", function(e){
         let selectEl = document.getElementById("routsSelect");
-        selectEl.innerHTML = '';
-        const SelectOptionChoiceEl = document.createElement('option');
-        SelectOptionChoiceEl.textContent = 'Выбрать';
-        SelectOptionChoiceEl.selected = true;
-        selectEl.appendChild(SelectOptionChoiceEl);
+        const optionToSelect = selectEl.querySelector('option[value="Выбрать"]');
+        optionToSelect.selected = true;
         let searchText = e.target.value.toLowerCase();
         const filteredData = trimedData.filter(item =>
             item.name.toLowerCase().includes(searchText)
