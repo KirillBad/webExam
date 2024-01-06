@@ -8,6 +8,15 @@ async function getRoutsData() {
     return content;
 }
 
+async function getRoutGuidesData(routId) {
+    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
+    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes/${routId}/guides`;
+    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+    let response = await fetch(urlWithApiKey);
+    let content = await response.json();
+    return content;
+}
+
 function truncateStrings(data, maxLength, keys) {
     data.forEach(obj => {
         keys.forEach(key => {
@@ -22,6 +31,7 @@ function truncateStrings(data, maxLength, keys) {
 async function paginationMain() {
     let currentPage = 1;
     let rows = 5;
+
     const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
     const trimedData = truncateStrings(routsData, 250, trimingOrder)
@@ -39,6 +49,7 @@ async function paginationMain() {
                 const th = document.createElement('th');
                 th.setAttribute('scope', 'col');
                 th.textContent = `${paginatedData[key][prop]}`;
+                console.log(paginatedData[key][prop]);
                 newRow.appendChild(th);
             }
             const thWithButton = document.createElement('th');
@@ -46,6 +57,10 @@ async function paginationMain() {
             const button = document.createElement('button');
             button.className = 'btn btn-outline-primary';
             button.textContent = 'Выбрать';
+            button.dataset.id = paginatedData[key]["id"];
+            button.addEventListener("click", async () => {
+                await displayTourGuidesData(button.dataset.id);
+            });
             thWithButton.appendChild(button);
             newRow.appendChild(thWithButton);
             tableEl.appendChild(newRow);
@@ -190,6 +205,32 @@ async function paginationMain() {
     displayList(trimedData, rows, currentPage);
     displayPagination(trimedData, rows);
     displaySelect(trimedData);
+}
+
+async function displayTourGuidesData(id){
+    const tourGuidesData = await getRoutGuidesData(id);
+    const propertiesOrder = ['name', 'language', 'workExpirience', 'pricePerHour'];
+    for (key in tourGuidesData) {
+        const newRow = document.createElement('tr');
+        for (prop of propertiesOrder) {
+            const th = document.createElement('th');
+            th.setAttribute('scope', 'col');
+            th.textContent = `${paginatedData[key][prop]}`;
+            newRow.appendChild(th);
+        }
+        const thWithButton = document.createElement('th');
+        thWithButton.setAttribute('scope', 'col'); 
+        const button = document.createElement('button');
+        button.className = 'btn btn-outline-primary';
+        button.textContent = 'Выбрать';
+        // button.dataset.id = paginatedData[key]["id"];
+        // button.addEventListener("click", async () => {
+        //     await displayTourGuidesData(button.dataset.id);
+        // });
+        thWithButton.appendChild(button);
+        newRow.appendChild(thWithButton);
+        tableEl.appendChild(newRow);
+    };
 }
 
 paginationMain()
