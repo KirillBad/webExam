@@ -1,37 +1,3 @@
-// test data
-const dataArrayT = [
-    { name: 'Элемент 1', description: 'Описание 1', mainObject: 'Основной-объект 1' },
-    { name: 'Элемент 2', description: 'Описание 2', mainObject: 'Основной-объект 2' },
-    { name: 'Элемент 3', description: 'Описание 3', mainObject: 'Основной-объект 3' },
-    { name: 'Элемент 4', description: 'Описание 4', mainObject: 'Основной-объект 4' },
-    { name: 'Элемент 5', description: 'Описание 5', mainObject: 'Основной-объект 5' },
-    { name: 'Элемент 6', description: 'Описание 6', mainObject: 'Основной-объект 6' },
-    { name: 'Элемент 7', description: 'Описание 7', mainObject: 'Основной-объект 7' },
-    { name: 'Элемент 8', description: 'Описание 8', mainObject: 'Основной-объект 8' },
-    { name: 'Элемент 9', description: 'Описание 9', mainObject: 'Основной-объект 9' },
-    { name: 'Элемент 10', description: 'Описание 10', mainObject: 'Основной-объект-10' },
-    { name: 'Элемент 11', description: 'Описание 11', mainObject: 'Основной объект 11' },
-    { name: 'Элемент 12', description: 'Описание 12', mainObject: 'Основной объект 12' },
-    { name: 'Элемент 13', description: 'Описание 13', mainObject: 'Основной объект 13' },
-    { name: 'Элемент 14', description: 'Описание 14', mainObject: 'Основной объект 14' },
-    { name: 'Элемент 15', description: 'Описание 15', mainObject: 'Основной объект 15' },
-    { name: 'Элемент 16', description: 'Описание 16', mainObject: 'Основной объект 16' },
-    { name: 'Элемент 17', description: 'Описание 17', mainObject: 'Основной объект 17' },
-    { name: 'Элемент 18', description: 'Описание 18', mainObject: 'Основной объект 18' },
-    { name: 'Элемент 19', description: 'Описание 19', mainObject: 'Основной объект 19' },
-    { name: 'Элемент 20', description: 'Описание 20', mainObject: 'Основной объект 20' },
-    { name: 'Элемент 21', description: 'Описание 21', mainObject: 'Основной объект 21' },
-    { name: 'Элемент 22', description: 'Описание 22', mainObject: 'Основной объект 22' },
-    { name: 'Элемент 23', description: 'Описание 23', mainObject: 'Основной объект 23' },
-    { name: 'Элемент 24', description: 'Описание 24', mainObject: 'Основной объект 24' },
-    { name: 'Элемент 25', description: 'Описание 25', mainObject: 'Основной объект 25' },
-    { name: 'Элемент 26', description: 'Описание 26', mainObject: 'Основной объект 26' },
-    { name: 'Элемент 27', description: 'Описание 27', mainObject: 'Основной объект 27' },
-    { name: 'Элемент 28', description: 'Описание 28', mainObject: 'Основной объект 28' },
-    { name: 'Элемент 29', description: 'Описание 29', mainObject: 'Основной объект 29' },
-    { name: 'Элемент 30', description: 'Описание 30', mainObject: 'Основной объект 30' }
-  ];
-
 // get routs data
 async function getRoutsData() {
     const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
@@ -42,15 +8,27 @@ async function getRoutsData() {
     return content;
 }
 
+const trimingOrder = ['description', 'mainObject'];
+function truncateStrings(data, maxLength, keys) {
+    data.forEach(obj => {
+        keys.forEach(key => {
+        if (obj[key].length > maxLength) {
+            obj[key] = obj[key].substring(0, obj[key].lastIndexOf(' ', maxLength)) + '...';
+        }
+        });
+    });
+    return data;
+}
+
 let routsData;
 async function paginationMain() {
     let currentPage = 1;
     let rows = 5;
     routsData = await getRoutsData();
-    // arrData = dataArrayT;
+    trimedData = truncateStrings(routsData, 250, trimingOrder)
     function displayList(arrData, rowsPerPage, page) {
-        const tableEl = document.querySelector('#listBody');
-        tableEl.innerHTML = '';
+        const tableEl = document.getElementById('tableRouts');
+        tableEl.innerHTML = ''; 
         page--;
         const start = rowsPerPage * page;
         const end = start + rowsPerPage;
@@ -149,17 +127,24 @@ async function paginationMain() {
     }
 
     function displaySelect(dataArr) {
+        let selectEl = document.getElementById("routsSelect");
+        selectEl.innerHTML = '';
+        const SelectOptionChoiceEl = document.createElement('option');
+        SelectOptionChoiceEl.textContent = 'Выбрать';
+        SelectOptionChoiceEl.selected = true;
+        selectEl.appendChild(SelectOptionChoiceEl);
         let uniqueValues = [];
-        dataArr.forEach(item => {
+        const filteredData = dataArr.filter(items => items.mainObject.includes(" - ") || items.mainObject.includes(" – ") || items.mainObject.includes("- "));
+        filteredData.forEach(item => {
             const splitedValues = item["mainObject"].split(" - ");
-            splitedValues.forEach(value => {
-                const trimmedValue = value.trim();
-                if (!uniqueValues.includes(trimmedValue)) {
-                    uniqueValues.push(trimmedValue)
-                    const selectEl = document.getElementById("routsSelect");
+            const secondSplitedValues = [].concat(...splitedValues.map(str => str.split(" – ")));
+            const thirdSplitedValues = [].concat(...secondSplitedValues.map(str => str.split("- ")));
+            thirdSplitedValues.forEach(value => {
+                if (!uniqueValues.includes(value)) {
+                    uniqueValues.push(value)
                     const newSelectOptionEl = document.createElement('option');
-                    newSelectOptionEl.textContent = trimmedValue;
-                    newSelectOptionEl.trimmedValue = trimmedValue;
+                    newSelectOptionEl.textContent = value;
+                    newSelectOptionEl.value = value;
                     selectEl.appendChild(newSelectOptionEl);
                 }
             })
@@ -168,7 +153,7 @@ async function paginationMain() {
 
     document.getElementById("routsSearch").addEventListener("keyup", function(e){
         let searchText = e.target.value.toLowerCase();
-        const filteredData = routsData.filter(item =>
+        const filteredData = trimedData.filter(item =>
             item.name.toLowerCase().includes(searchText)
         );
         displayList(filteredData, rows, currentPage);
@@ -177,22 +162,23 @@ async function paginationMain() {
 
     document.getElementById("routsSelect").addEventListener("change", function() {
         const selectedValue = this.value;
+        document.getElementById("routsSearch").value = "";
         if (selectedValue !== "Выбрать") {
-            const filteredData = routsData.filter(item =>
+            const filteredData = trimedData.filter(item =>
                 item.mainObject.toLowerCase().includes(selectedValue.toLowerCase())
             );
             displayList(filteredData, rows, currentPage);
             displayPagination(filteredData, rows);
         }
         else {
-            displayList(routsData, rows, currentPage);
-            displayPagination(routsData, rows);
+            displayList(trimedData, rows, currentPage); 
+            displayPagination(trimedData, rows);
         }
     })
 
-    displayList(routsData, rows, currentPage);
-    displayPagination(routsData, rows);
-    displaySelect(routsData);
+    displayList(trimedData, rows, currentPage);
+    displayPagination(trimedData, rows);
+    displaySelect(trimedData);
 }
 
 paginationMain()
