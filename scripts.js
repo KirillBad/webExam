@@ -63,7 +63,7 @@ async function paginationMain() {
             button.addEventListener("click", async () => {
                 await mainTourGuidesData(button.dataset.id);
                 document.getElementById("tourGuide").classList.remove('d-none');
-                ocument.getElementById("footer").classList.remove('bg-light');
+                document.getElementById("footer").classList.remove('bg-light');
             });
 
             thWithButton.appendChild(button);
