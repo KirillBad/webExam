@@ -226,6 +226,7 @@ async function mainTourGuidesData(id){
     document.getElementById("maxSliderValue").textContent = maxWorkExperience;
     slider.min = minWorkExperience;
     slider.max = maxWorkExperience;
+    slider.value = minWorkExperience;
     const selectLangugageEl = document.getElementById("guidesSelect");
 
     displayTourGuidesData(tourGuidesData);
