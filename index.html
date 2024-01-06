@@ -63,13 +63,13 @@
     </div>
   </section>
 
-  <section class="bg-light mt-5" id="facts">
+  <section class="bg-light" id="facts">
     <div class="container-lg">
       <div class="text-center">
         <h2>Взгляни на старую Москву по Новому</h2>
         <p class="lead text-muted">Качество наших услуг выше Москва-Сити</p>
       </div>
-      <div class="row my-5 align-items-center justify-content-center g-0">
+      <div class="row my-0 align-items-center justify-content-center g-0">
         <div class="col-8 col-lg-4 col-xl-3">
           <div class="card border-0 rounded-5 rounded-end">
             <img src="/img/languages.jpg" alt="languages" class="card-img-top rounded-5">
@@ -88,7 +88,7 @@
               <h4 class="card-title">Персональный трансфер</h4>
               <p class="lead card-subtitle">Экономия вашего времени</p>
               <p class="card-text mt-2 text-muted d-none d-lg-block">Авто VIP класса довезёт вас до ближайше станции метро после экскурсии.</p>
-              <a href="#" class="btn btn-outline-primary btn-lg mt-3">Выбрать маршрут</a>
+              <a href="#routs" class="btn btn-outline-primary btn-lg mt-3">Выбрать маршрут</a>
             </div>
           </div>
         </div>
@@ -108,7 +108,19 @@
 
   <section class="mt-0" id="routs">
     <div class="display-2 text-center">Маршруты</div>
-    <table class="table container-xxl text-center mt-5 table-striped-columns">
+    <div class="container-lg">
+      <div class="row justify-content-between mt-3">
+        <div class="col-5 col-md-3">
+          <input type="text" class="form-control mx-auto" placeholder="Поиск..." id="routsSearch">
+        </div>
+        <div class="col-5 col-md-3">
+          <select class="form-select" aria-label="Default select example" id="routsSelect">
+            <option selected>Выбрать</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <table class="table container-xxl text-center mt-3 table-striped-columns">
       <thead>
         <tr>
           <th scope="col">Название</th>
