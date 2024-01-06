@@ -151,7 +151,7 @@ async function paginationMain() {
     function displaySelect(dataArr) {
         let uniqueValues = [];
         dataArr.forEach(item => {
-            const splitedValues = item["mainObject"].split("-");
+            const splitedValues = item["mainObject"].split(" - ");
             splitedValues.forEach(value => {
                 const trimmedValue = value.trim();
                 if (!uniqueValues.includes(trimmedValue)) {
