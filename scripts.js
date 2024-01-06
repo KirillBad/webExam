@@ -148,7 +148,7 @@ async function paginationMain() {
 
     document.getElementById("routsSearch").addEventListener("keyup", function(e){
         let selectEl = document.getElementById("routsSelect");
-        const optionToSelect = selectEl.querySelector('option[value="Выбрать"]');
+        const optionToSelect = Array.from(selectEl.options).find(option => option.textContent === "Выбрать");
         optionToSelect.selected = true;
         let searchText = e.target.value.toLowerCase();
         const filteredData = trimedData.filter(item =>
