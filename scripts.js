@@ -8,7 +8,6 @@ async function getRoutsData() {
     return content;
 }
 
-const trimingOrder = ['description', 'mainObject'];
 function truncateStrings(data, maxLength, keys) {
     data.forEach(obj => {
         keys.forEach(key => {
@@ -25,6 +24,7 @@ async function paginationMain() {
     let currentPage = 1;
     let rows = 5;
     routsData = await getRoutsData();
+    const trimingOrder = ['description', 'mainObject'];
     trimedData = truncateStrings(routsData, 250, trimingOrder)
     function displayList(arrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableRouts');
@@ -127,12 +127,6 @@ async function paginationMain() {
     }
 
     function displaySelect(dataArr) {
-        let selectEl = document.getElementById("routsSelect");
-        selectEl.innerHTML = '';
-        const SelectOptionChoiceEl = document.createElement('option');
-        SelectOptionChoiceEl.textContent = 'Выбрать';
-        SelectOptionChoiceEl.selected = true;
-        selectEl.appendChild(SelectOptionChoiceEl);
         let uniqueValues = [];
         const filteredData = dataArr.filter(items => items.mainObject.includes(" - ") || items.mainObject.includes(" – ") || items.mainObject.includes("- "));
         filteredData.forEach(item => {
@@ -152,6 +146,12 @@ async function paginationMain() {
     }
 
     document.getElementById("routsSearch").addEventListener("keyup", function(e){
+        let selectEl = document.getElementById("routsSelect");
+        selectEl.innerHTML = '';
+        const SelectOptionChoiceEl = document.createElement('option');
+        SelectOptionChoiceEl.textContent = 'Выбрать';
+        SelectOptionChoiceEl.selected = true;
+        selectEl.appendChild(SelectOptionChoiceEl);
         let searchText = e.target.value.toLowerCase();
         const filteredData = trimedData.filter(item =>
             item.name.toLowerCase().includes(searchText)
