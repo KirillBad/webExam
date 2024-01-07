@@ -70,8 +70,7 @@ async function paginationMain() {
             button.dataset.id = paginatedData[key]["id"];
             button.dataset.routName = paginatedData[key]["name"];
 
-            if (paginatedData[key]["id"] === selectedRoutId) {
-                console.log("123")  
+            if (paginatedData[key]["id"] == selectedRoutId) {
                 newRow.classList.add("selected");
             }
             else {
@@ -237,6 +236,8 @@ async function paginationMain() {
 
     async function mainTourGuidesData(id, routName){
         selectedRoutId = id;
+                
+        let selectedTourGuideId = null;
         displayList(trimedData, rows, currentPage);
         const tourGuidesData = await getRoutGuidesData(id);
         const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
@@ -251,7 +252,7 @@ async function paginationMain() {
         const selectLangugageEl = document.getElementById("guidesSelect");
     
         displayTourGuidesData(tourGuidesData);
-    
+
         function displayTourGuidesData(data) {
             const tableEl = document.getElementById('tableTourGuides');
             tableEl.innerHTML = ''; 
@@ -283,13 +284,24 @@ async function paginationMain() {
     
                 button.dataset.guideName = data[key]["name"];
                 button.dataset.guidepricePerHour = data[key]["pricePerHour"];
+                button.dataset.tourGuidId = data[key]["id"];
     
-                button.addEventListener("click", async () => {
+                button.addEventListener("click", () => {
                     document.getElementById("displayGuideName").textContent = "Гид: " + button.dataset.guideName;
                     document.getElementById("displayRoutName").textContent = "Маршрут: " + routName;
                     updateCostModal(button.dataset.guidepricePerHour);
+                    const allRows = tableEl.getElementsByTagName('tr');
+                    for (const row of allRows) {
+                        row.classList.remove('selected');
+                    }
+                    newRow.classList.add("selected")
+                    selectedTourGuideId = button.dataset.tourGuidId;
                 });
-    
+
+                if (data[key]["id"] == selectedTourGuideId) {
+                    newRow.classList.add("selected")
+                }
+
                 thWithButton.appendChild(button);
                 newRow.appendChild(thWithButton);
                 tableEl.appendChild(newRow);
