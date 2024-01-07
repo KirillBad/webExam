@@ -235,220 +235,221 @@ async function paginationMain() {
     displayList(trimedData, rows, currentPage);
     displayPagination(trimedData, rows);
     displaySelect(trimedData);
-}
 
-async function mainTourGuidesData(id, routName){
-    selectedRoutId = id;
-    const tourGuidesData = await getRoutGuidesData(id);
-    const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
-    const maxWorkExperience = Math.max(...workExperienceValues);
-    const minWorkExperience = Math.min(...workExperienceValues);
-    const slider = document.getElementById("customRange2");
-    document.getElementById("minSliderValue").textContent = minWorkExperience;
-    document.getElementById("maxSliderValue").textContent = maxWorkExperience;
-    slider.min = minWorkExperience;
-    slider.max = maxWorkExperience;
-    slider.value = minWorkExperience;
-    const selectLangugageEl = document.getElementById("guidesSelect");
-
-    displayTourGuidesData(tourGuidesData);
-
-    function displayTourGuidesData(data) {
-        const tableEl = document.getElementById('tableTourGuides');
-        tableEl.innerHTML = ''; 
-        const propertiesOrder = ['name', 'language', 'workExperience', 'pricePerHour'];
-        for (key in data) {
-            const newRow = document.createElement('tr');
-            const thWithImg = document.createElement("th");
-            thWithImg.setAttribute('scope', 'col'); 
-            const img = document.createElement("img");
-            img.src = "/img/guideImg.png";
-            img.width = "70";
-            img.height = "70";
-            thWithImg.appendChild(img);
-            newRow.appendChild(thWithImg);
-            for (prop of propertiesOrder) {
-                const th = document.createElement('th');
-                th.setAttribute('scope', 'col');
-                th.textContent = `${data[key][prop]}`;
-                newRow.appendChild(th);
-            }
-            const thWithButton = document.createElement('th');
-            thWithButton.setAttribute('scope', 'col'); 
-            const button = document.createElement('button');
-            button.className = 'btn btn-outline-primary';
-            button.type = 'button';
-            button.setAttribute('data-bs-toggle', 'modal');
-            button.setAttribute('data-bs-target', '#exampleModal');
-            button.textContent = 'Выбрать';
-
-            button.dataset.guideName = data[key]["name"];
-            button.dataset.guidepricePerHour = data[key]["pricePerHour"];
-
-            button.addEventListener("click", async () => {
-                document.getElementById("displayGuideName").textContent = "Гид: " + button.dataset.guideName;
-                document.getElementById("displayRoutName").textContent = "Маршрут: " + routName;
-                updateCostModal(button.dataset.guidepricePerHour);
-            });
-
-            thWithButton.appendChild(button);
-            newRow.appendChild(thWithButton);
-            tableEl.appendChild(newRow);
-        };
-    }
-
-    function displaySelectLanguage(dataArr) {
-        let uniqueValues = [];
-        const selectEl = document.getElementById("guidesSelect");
-        selectEl.innerHTML = "";
-        const firstSelectOptionEl = document.createElement('option');
-        firstSelectOptionEl.textContent = 'Выбрать язык экскурсии';
-        selectEl.appendChild(firstSelectOptionEl);
-
-        dataArr.forEach(item => {
-            if (!uniqueValues.includes(item['language'])) {
-                uniqueValues.push(item['language'])
-                const newSelectOptionEl = document.createElement('option');
-                newSelectOptionEl.textContent = item['language'];
-                newSelectOptionEl.value = item['language'];
-                selectEl.appendChild(newSelectOptionEl);
-            }
-        })
-    }
-
-    let selectedValue;
-
-    function sliderSort(SliderValue, data){
-        return filteredDataSlider = data.filter(item => item.workExperience >= SliderValue && item.workExperience <= slider.max);
-    }
-
-    slider.addEventListener('input', () => {
-        if (selectLangugageEl.value == "Выбрать язык экскурсии") {
-            displayTourGuidesData(sliderSort(slider.value, tourGuidesData));
+    async function mainTourGuidesData(id, routName){
+        selectedRoutId = id;
+        displayList(trimedData, currentPage, page);
+        const tourGuidesData = await getRoutGuidesData(id);
+        const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
+        const maxWorkExperience = Math.max(...workExperienceValues);
+        const minWorkExperience = Math.min(...workExperienceValues);
+        const slider = document.getElementById("customRange2");
+        document.getElementById("minSliderValue").textContent = minWorkExperience;
+        document.getElementById("maxSliderValue").textContent = maxWorkExperience;
+        slider.min = minWorkExperience;
+        slider.max = maxWorkExperience;
+        slider.value = minWorkExperience;
+        const selectLangugageEl = document.getElementById("guidesSelect");
+    
+        displayTourGuidesData(tourGuidesData);
+    
+        function displayTourGuidesData(data) {
+            const tableEl = document.getElementById('tableTourGuides');
+            tableEl.innerHTML = ''; 
+            const propertiesOrder = ['name', 'language', 'workExperience', 'pricePerHour'];
+            for (key in data) {
+                const newRow = document.createElement('tr');
+                const thWithImg = document.createElement("th");
+                thWithImg.setAttribute('scope', 'col'); 
+                const img = document.createElement("img");
+                img.src = "/img/guideImg.png";
+                img.width = "70";
+                img.height = "70";
+                thWithImg.appendChild(img);
+                newRow.appendChild(thWithImg);
+                for (prop of propertiesOrder) {
+                    const th = document.createElement('th');
+                    th.setAttribute('scope', 'col');
+                    th.textContent = `${data[key][prop]}`;
+                    newRow.appendChild(th);
+                }
+                const thWithButton = document.createElement('th');
+                thWithButton.setAttribute('scope', 'col'); 
+                const button = document.createElement('button');
+                button.className = 'btn btn-outline-primary';
+                button.type = 'button';
+                button.setAttribute('data-bs-toggle', 'modal');
+                button.setAttribute('data-bs-target', '#exampleModal');
+                button.textContent = 'Выбрать';
+    
+                button.dataset.guideName = data[key]["name"];
+                button.dataset.guidepricePerHour = data[key]["pricePerHour"];
+    
+                button.addEventListener("click", async () => {
+                    document.getElementById("displayGuideName").textContent = "Гид: " + button.dataset.guideName;
+                    document.getElementById("displayRoutName").textContent = "Маршрут: " + routName;
+                    updateCostModal(button.dataset.guidepricePerHour);
+                });
+    
+                thWithButton.appendChild(button);
+                newRow.appendChild(thWithButton);
+                tableEl.appendChild(newRow);
+            };
         }
-        else {
-            displayTourGuidesData(sliderSort(slider.value, selectSort(selectedValue, tourGuidesData)));
+    
+        function displaySelectLanguage(dataArr) {
+            let uniqueValues = [];
+            const selectEl = document.getElementById("guidesSelect");
+            selectEl.innerHTML = "";
+            const firstSelectOptionEl = document.createElement('option');
+            firstSelectOptionEl.textContent = 'Выбрать язык экскурсии';
+            selectEl.appendChild(firstSelectOptionEl);
+    
+            dataArr.forEach(item => {
+                if (!uniqueValues.includes(item['language'])) {
+                    uniqueValues.push(item['language'])
+                    const newSelectOptionEl = document.createElement('option');
+                    newSelectOptionEl.textContent = item['language'];
+                    newSelectOptionEl.value = item['language'];
+                    selectEl.appendChild(newSelectOptionEl);
+                }
+            })
         }
-    });    
-
-    function selectSort(SelectValue, data) {
-        return filteredDataSelect = data.filter(item => item.language.toLowerCase().includes(SelectValue.toLowerCase()));
-    }
-
-    selectLangugageEl.addEventListener("change", function() {
-        selectedValue = this.value;
-        if (slider.value == minWorkExperience) {
-            if (selectedValue !== "Выбрать язык экскурсии") {
-                displayTourGuidesData(selectSort(selectedValue, tourGuidesData));
-            }
-            else {
-                displayTourGuidesData(tourGuidesData);
-            }
+    
+        let selectedValue;
+    
+        function sliderSort(SliderValue, data){
+            return filteredDataSlider = data.filter(item => item.workExperience >= SliderValue && item.workExperience <= slider.max);
         }
-        else {
-            if (selectedValue !== "Выбрать язык экскурсии") {
-                displayTourGuidesData(sliderSort(slider.value, selectSort(selectedValue, tourGuidesData)));
-            }
-            else {
+    
+        slider.addEventListener('input', () => {
+            if (selectLangugageEl.value == "Выбрать язык экскурсии") {
                 displayTourGuidesData(sliderSort(slider.value, tourGuidesData));
             }
+            else {
+                displayTourGuidesData(sliderSort(slider.value, selectSort(selectedValue, tourGuidesData)));
+            }
+        });    
+    
+        function selectSort(SelectValue, data) {
+            return filteredDataSelect = data.filter(item => item.language.toLowerCase().includes(SelectValue.toLowerCase()));
         }
-    })
+    
+        selectLangugageEl.addEventListener("change", function() {
+            selectedValue = this.value;
+            if (slider.value == minWorkExperience) {
+                if (selectedValue !== "Выбрать язык экскурсии") {
+                    displayTourGuidesData(selectSort(selectedValue, tourGuidesData));
+                }
+                else {
+                    displayTourGuidesData(tourGuidesData);
+                }
+            }
+            else {
+                if (selectedValue !== "Выбрать язык экскурсии") {
+                    displayTourGuidesData(sliderSort(slider.value, selectSort(selectedValue, tourGuidesData)));
+                }
+                else {
+                    displayTourGuidesData(sliderSort(slider.value, tourGuidesData));
+                }
+            }
+        })
+    
+        displaySelectLanguage(tourGuidesData);
+    }
 
-    displaySelectLanguage(tourGuidesData);
+    function updateCostModal(priceHour) {
+        const publicHolidaysList = [
+            "2024-02-23",
+            "2024-03-08",
+            "2024-04-29",
+            "2024-04-30",
+            "2024-05-01",
+            "2024-05-09",
+            "2024-05-10",
+            "2024-06-12",
+            "2024-11-04",
+            "2024-12-30",
+            "2024-12-31",
+        ];
+    
+        const guidePricePerHour = priceHour !== undefined ? priceHour : updateCostModal.guidePricePerHour;
+        let inputDate = document.getElementById('routDate');
+        let inputTime = document.getElementById('routTime');
+        let inputSelect = document.getElementById('selectHours');
+        let inputPeopleCount = document.getElementById('peopleCount');
+        let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+        let inputCarCheckBox = document.getElementById('carCheckBox');
+        let dayMultiplier = 1;
+    
+        const date = new Date(inputDate.value);
+        const dayOfWeek = date.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            dayMultiplier = 1.5;
+        }
+        const formattedDate = date.toISOString().split('T')[0];
+        if (publicHolidaysList.includes(formattedDate)) {
+            dayMultiplier = 1.5;
+        }
+    
+        const currentTime = new Date(`2000-01-01T${inputTime.value}`);
+        const hour = currentTime.getHours();
+        const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
+        const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
+    
+        const peopleCountCost = 
+        inputPeopleCount.value >= 1 && inputPeopleCount.value <= 5 ? 0 :
+        inputPeopleCount.value > 5 && inputPeopleCount.value <= 10 ? 1000 :
+        inputPeopleCount.value > 10 && inputPeopleCount.value <= 20 ? 1500 : 0;
+     
+        let totalPrice = guidePricePerHour * inputSelect.value.split(' ')[0] * dayMultiplier + earlyTimeCost + lateTimeCost + peopleCountCost;
+    
+        if (inputTourGuideCheckBox.checked) {
+            totalPrice *= 1.3;
+        }
+    
+        if (inputCarCheckBox.checked) {
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                totalPrice *= 1.25;
+            }
+            else {
+                totalPrice *= 1.3;
+            } 
+        }
+    
+        totalPrice = Math.ceil(totalPrice) + "р";
+    
+        document.getElementById("totalPriceDisplay").textContent = totalPrice;
+    
+        updateCostModal.guidePricePerHour = guidePricePerHour;
+    
+        document.getElementById("btnSendOrder").addEventListener("click", () => {
+    
+        });
+    };
+    
+    document.getElementById('orderingModal').addEventListener('input', () => {
+        updateCostModal()
+    });
+    
+    document.getElementById('orderingModal').addEventListener('change', () => {
+        updateCostModal();
+    });
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        let inputDate = document.getElementById('routDate');
+    
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = String(today.getDate()).padStart(2, '0');
+        let currentDate = yyyy + '-' + mm + '-' + dd;
+    
+        inputDate.setAttribute('min', currentDate);
+        inputDate.setAttribute('max', yyyy + '-12-31');
+        inputDate.value = currentDate;
+    });
 }
 
 paginationMain()
 
-
-function updateCostModal(priceHour) {
-    const publicHolidaysList = [
-        "2024-02-23",
-        "2024-03-08",
-        "2024-04-29",
-        "2024-04-30",
-        "2024-05-01",
-        "2024-05-09",
-        "2024-05-10",
-        "2024-06-12",
-        "2024-11-04",
-        "2024-12-30",
-        "2024-12-31",
-    ];
-
-    const guidePricePerHour = priceHour !== undefined ? priceHour : updateCostModal.guidePricePerHour;
-    let inputDate = document.getElementById('routDate');
-    let inputTime = document.getElementById('routTime');
-    let inputSelect = document.getElementById('selectHours');
-    let inputPeopleCount = document.getElementById('peopleCount');
-    let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
-    let inputCarCheckBox = document.getElementById('carCheckBox');
-    let dayMultiplier = 1;
-
-    const date = new Date(inputDate.value);
-    const dayOfWeek = date.getDay();
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-        dayMultiplier = 1.5;
-    }
-    const formattedDate = date.toISOString().split('T')[0];
-    if (publicHolidaysList.includes(formattedDate)) {
-        dayMultiplier = 1.5;
-    }
-
-    const currentTime = new Date(`2000-01-01T${inputTime.value}`);
-    const hour = currentTime.getHours();
-    const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
-    const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
-
-    const peopleCountCost = 
-    inputPeopleCount.value >= 1 && inputPeopleCount.value <= 5 ? 0 :
-    inputPeopleCount.value > 5 && inputPeopleCount.value <= 10 ? 1000 :
-    inputPeopleCount.value > 10 && inputPeopleCount.value <= 20 ? 1500 : 0;
- 
-    let totalPrice = guidePricePerHour * inputSelect.value.split(' ')[0] * dayMultiplier + earlyTimeCost + lateTimeCost + peopleCountCost;
-
-    if (inputTourGuideCheckBox.checked) {
-        totalPrice *= 1.3;
-    }
-
-    if (inputCarCheckBox.checked) {
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            totalPrice *= 1.25;
-        }
-        else {
-            totalPrice *= 1.3;
-        } 
-    }
-
-    totalPrice = Math.ceil(totalPrice) + "р";
-
-    document.getElementById("totalPriceDisplay").textContent = totalPrice;
-
-    updateCostModal.guidePricePerHour = guidePricePerHour;
-
-    document.getElementById("btnSendOrder").addEventListener("click", () => {
-
-    });
-};
-
-document.getElementById('orderingModal').addEventListener('input', () => {
-    updateCostModal()
-});
-
-document.getElementById('orderingModal').addEventListener('change', () => {
-    updateCostModal();
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    let inputDate = document.getElementById('routDate');
-
-    let today = new Date();
-    let yyyy = today.getFullYear();
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let dd = String(today.getDate()).padStart(2, '0');
-    let currentDate = yyyy + '-' + mm + '-' + dd;
-
-    inputDate.setAttribute('min', currentDate);
-    inputDate.setAttribute('max', yyyy + '-12-31');
-    inputDate.value = currentDate;
-});
