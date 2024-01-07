@@ -83,7 +83,6 @@ async function paginationMain() {
                 document.getElementById("tourGuide").classList.remove('d-none');
                 document.getElementById("footer").classList.remove('bg-light');
                 document.getElementById("routNameForGuidDisplay").textContent = button.dataset.routName;
-                displayList(trimedData, currentPage, page)
             });
 
             thWithButton.appendChild(button);
