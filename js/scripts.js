@@ -253,6 +253,76 @@ async function paginationMain() {
     
         displayTourGuidesData(tourGuidesData);
 
+        function updateCostModal(priceHour) {
+            const publicHolidaysList = [
+                "2024-02-23",
+                "2024-03-08",
+                "2024-04-29",
+                "2024-04-30",
+                "2024-05-01",
+                "2024-05-09",
+                "2024-05-10",
+                "2024-06-12",
+                "2024-11-04",
+                "2024-12-30",
+                "2024-12-31",
+            ];
+        
+            const guidePricePerHour = priceHour !== undefined ? priceHour : updateCostModal.guidePricePerHour;
+            let inputDate = document.getElementById('routDate');
+            let inputTime = document.getElementById('routTime');
+            let inputSelect = document.getElementById('selectHours');
+            let inputPeopleCount = document.getElementById('peopleCount');
+            let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+            let inputCarCheckBox = document.getElementById('carCheckBox');
+            let dayMultiplier = 1;
+        
+            let date = new Date(inputDate.value);
+            const dayOfWeek = date.getDay();
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                dayMultiplier = 1.5;
+            }
+            const formattedDate = date.toISOString().split('T')[0];
+            if (publicHolidaysList.includes(formattedDate)) {
+                dayMultiplier = 1.5;
+            }
+        
+            const currentTime = new Date(`2000-01-01T${inputTime.value}`);
+            const hour = currentTime.getHours();
+            const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
+            const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
+        
+            const peopleCountCost = 
+            inputPeopleCount.value >= 1 && inputPeopleCount.value <= 5 ? 0 :
+            inputPeopleCount.value > 5 && inputPeopleCount.value <= 10 ? 1000 :
+            inputPeopleCount.value > 10 && inputPeopleCount.value <= 20 ? 1500 : 0;
+         
+            let totalPrice = guidePricePerHour * inputSelect.value.split(' ')[0] * dayMultiplier + earlyTimeCost + lateTimeCost + peopleCountCost;
+        
+            if (inputTourGuideCheckBox.checked) {
+                totalPrice *= 1.3;
+            }
+        
+            if (inputCarCheckBox.checked) {
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    totalPrice *= 1.25;
+                }
+                else {
+                    totalPrice *= 1.3;
+                } 
+            }
+        
+            totalPrice = Math.ceil(totalPrice) + "р";
+        
+            document.getElementById("totalPriceDisplay").textContent = totalPrice;
+        
+            updateCostModal.guidePricePerHour = guidePricePerHour;
+        
+            document.getElementById("btnSendOrder").addEventListener("click", () => {
+        
+            });
+        };
+
         function displayTourGuidesData(data) {
             const tableEl = document.getElementById('tableTourGuides');
             tableEl.innerHTML = ''; 
@@ -367,76 +437,6 @@ async function paginationMain() {
         })
     
         displaySelectLanguage(tourGuidesData);
-
-        function updateCostModal(priceHour) {
-            const publicHolidaysList = [
-                "2024-02-23",
-                "2024-03-08",
-                "2024-04-29",
-                "2024-04-30",
-                "2024-05-01",
-                "2024-05-09",
-                "2024-05-10",
-                "2024-06-12",
-                "2024-11-04",
-                "2024-12-30",
-                "2024-12-31",
-            ];
-        
-            const guidePricePerHour = priceHour !== undefined ? priceHour : updateCostModal.guidePricePerHour;
-            let inputDate = document.getElementById('routDate');
-            let inputTime = document.getElementById('routTime');
-            let inputSelect = document.getElementById('selectHours');
-            let inputPeopleCount = document.getElementById('peopleCount');
-            let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
-            let inputCarCheckBox = document.getElementById('carCheckBox');
-            let dayMultiplier = 1;
-        
-            let date = new Date(inputDate.value);
-            const dayOfWeek = date.getDay();
-            if (dayOfWeek === 0 || dayOfWeek === 6) {
-                dayMultiplier = 1.5;
-            }
-            const formattedDate = date.toISOString().split('T')[0];
-            if (publicHolidaysList.includes(formattedDate)) {
-                dayMultiplier = 1.5;
-            }
-        
-            const currentTime = new Date(`2000-01-01T${inputTime.value}`);
-            const hour = currentTime.getHours();
-            const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
-            const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
-        
-            const peopleCountCost = 
-            inputPeopleCount.value >= 1 && inputPeopleCount.value <= 5 ? 0 :
-            inputPeopleCount.value > 5 && inputPeopleCount.value <= 10 ? 1000 :
-            inputPeopleCount.value > 10 && inputPeopleCount.value <= 20 ? 1500 : 0;
-         
-            let totalPrice = guidePricePerHour * inputSelect.value.split(' ')[0] * dayMultiplier + earlyTimeCost + lateTimeCost + peopleCountCost;
-        
-            if (inputTourGuideCheckBox.checked) {
-                totalPrice *= 1.3;
-            }
-        
-            if (inputCarCheckBox.checked) {
-                if (dayOfWeek === 0 || dayOfWeek === 6) {
-                    totalPrice *= 1.25;
-                }
-                else {
-                    totalPrice *= 1.3;
-                } 
-            }
-        
-            totalPrice = Math.ceil(totalPrice) + "р";
-        
-            document.getElementById("totalPriceDisplay").textContent = totalPrice;
-        
-            updateCostModal.guidePricePerHour = guidePricePerHour;
-        
-            document.getElementById("btnSendOrder").addEventListener("click", () => {
-        
-            });
-        };
         
         document.getElementById('orderingModal').addEventListener('input', () => {
             updateCostModal()
