@@ -26,13 +26,7 @@
       <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
         <ul class="navbar-nav">
           <li class="navbar-item">
-            <a href="#facts" class="nav-link">О нас</a>
-          </li>
-          <li class="navbar-item">
-            <a href="#routs" class="nav-link">Маршруты</a>
-          </li>
-          <li class="navbar-item">
-            <a href="account.html" class="nav-link">Личный Кабинет</a>
+            <a href="index.html" class="nav-link">На главную</a>
           </li>
           <li class="navbar-item d-md-none">
             <button class="nav-link" id="btnThemeSwitch"><i class="bi bi-brightness-high-fill" id="themeIcon"></i> Сменить тему </button>
@@ -45,87 +39,15 @@
     </div>
   </nav>
 
-  <section id="intro">
-    <div class="container-lg">
-      <div class="row justify-content-center align-items-center">
-        <div class="col-md-5 text-center text-md-start">
-          <h1>
-            <div class="display-2">МосТуризм</div>
-            <div class="display-5 text-muted">Lorem ipsum dolor sit.</div>
-          </h1>
-          <p class="lead my-3 text-muted">Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
-          <a href="#routs" class="btn btn-secondary btn-lg">Выбрать маршрут</a>
-        </div>
-        <div class="col-md-5 text-center">
-          <img class="img-fluid rounded-5 mt-3 mt-md-0" src="/img/introLogo.jpg" alt="intro logo">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-light" id="facts">
-    <div class="container-lg">
-      <div class="text-center">
-        <h2>Взгляни на старую Москву по Новому</h2>
-        <p class="lead text-muted">Качество наших услуг выше Москва-Сити</p>
-      </div>
-      <div class="row my-0 align-items-center justify-content-center g-0">
-        <div class="col-8 col-lg-4 col-xl-3">
-          <div class="card border-0 rounded-5 rounded-end">
-            <img src="/img/languages.jpg" alt="languages" class="card-img-top rounded-5">
-            <div class="card-body text-center py-4">
-              <h4 class="card-title">Экскурсия на любом языке</h4>
-              <p class="lead card-subtitle">Знания на уровне носителя</p>
-              <p class="card-text mt-2 text-muted d-none d-lg-block">Наши гиды владеют несколькими языками, вы сможете найти професионала под свои нужды.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-9 col-lg-4">
-          <div class="card border-primary border-2 rounded-4">
-            <img src="/img/transfer.png" alt="transfer" class="card-img-top rounded-5">
-            <div class="card-header text-center text-primary">Уникальное предложение</div>
-            <div class="card-body text-center py-4">
-              <h4 class="card-title">Персональный трансфер</h4>
-              <p class="lead card-subtitle">Экономия вашего времени</p>
-              <p class="card-text mt-2 text-muted d-none d-lg-block">Авто VIP класса довезёт вас до ближайше станции метро после экскурсии.</p>
-              <a href="#routs" class="btn btn-outline-primary btn-lg mt-3">Выбрать маршрут</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-8 col-lg-4 col-xl-3">
-          <div class="card border-0 rounded-5 rounded-start">
-            <img src="/img/fast.jpeg" alt="fast" class="card-img-top rounded-5">
-            <div class="card-body text-center py-4">
-              <h4 class="card-title">Экскурсия в любое время</h4>
-              <p class="lead card-subtitle">Быстрый выезд гида</p>
-              <p class="card-text mt-2 text-muted d-none d-lg-block">Если вам срочна нужна экскурсия в определённое время, наши гиды выедут мгновенно специально для вас.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="mt-0" id="routs">
-    <div class="display-2 text-center">Маршруты</div>
-    <div class="container-lg">
-      <div class="row justify-content-between mt-3">
-        <div class="col-5 col-md-3">
-          <input type="text" class="form-control mx-auto" placeholder="Поиск..." id="routsSearch">
-        </div>
-        <div class="col-5 col-md-3">
-          <select class="form-select" aria-label="Default select example" id="routsSelect">
-            <option selected>Выбрать</option>
-          </select>
-        </div>
-      </div>
-    </div>
+    <div class="display-2 text-center">Оставленные заявки</div>
     <table class="table container-xxl text-center align-middle mt-3 table-striped-columns">
       <thead>
-        <tr class="selected">
-          <th scope="col">Название</th>
-          <th scope="col">Описание</th>
-          <th scope="col">Основные объекты</th>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Маршрут</th>
+          <th scope="col">Дата</th>
+          <th scope="col">Стоимость</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -136,45 +58,6 @@
       <ul class="pagination justify-content-center">
       </ul>
     </nav>
-  </section>
-
-  <section class="bg-light d-none" id="tourGuide">
-    <div class="row text-center">
-      <div class="col">
-        <div class="display-2">Гиды по маршруту</div>
-        <div class="display-6" id="routNameForGuidDisplay"></div>
-      </div>
-    </div>
-    <div class="container-lg">
-      <div class="row justify-content-between mt-3 text-center">
-        <div class="col-5 col-md-3">
-          <select class="form-select" aria-label="Default select example" id="guidesSelect">
-          </select>
-        </div>
-        <div class="col-5 col-md-3 justify-content-between">
-          <label for="customRange2" class="form-label">Опыт работы</label>
-          <div class="d-flex align-items-center">
-            <span class="me-2" id="minSliderValue"> 0 </span>
-              <input type="range" class="form-range" min="0" max="5" id="customRange2" value="0">
-            <span class="ms-2" id="maxSliderValue"> 5 </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <table class="table container-xxl text-center align-middle mt-3 table-striped-columns">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">ФИО</th>
-          <th scope="col">Языки</th>
-          <th scope="col">Опыт работы</th>
-          <th scope="col">Стоимость в час</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody id="tableTourGuides">
-      </tbody>
-    </table>
   </section>
 
   <section class="container-lg bg-light" id="footer">
@@ -199,7 +82,7 @@
               <a href="#routs" class="link-secondary text-decoration-none">Маршруты</a>
             </li>
             <li>
-              <a href="account.html" class="link-secondary text-decoration-none">Личный Кабинет</a>
+              <a href="index.html" class="link-secondary text-decoration-none">На главную</a>
             </li>
           </ul>
         </div>
@@ -285,7 +168,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-          <button type="button" class="btn btn-primary" id="btnSendOrder">Отправить</button>
+          <button type="button" class="btn btn-primary">Отправить</button>
         </div>
       </div>
     </div>

@@ -17,6 +17,15 @@ async function getRoutGuidesData(routId) {
     return content;
 }
 
+async function sendOrderData() {
+    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
+    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
+    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+    let response = await fetch(urlWithApiKey);
+    let content = await response.json();
+    return content;
+}
+
 function truncateStrings(data, maxLength, keys) {
     data.forEach(obj => {
         keys.forEach(key => {
@@ -28,15 +37,14 @@ function truncateStrings(data, maxLength, keys) {
     return data;
 }
 
-let selectedRow = null;
+let selectedRoutId = null;
+let currentPage = 1;
+let rows = 5;
 async function paginationMain() {
-    let currentPage = 1;
-    let rows = 5;
-
     const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
-    const trimedData = truncateStrings(routsData, 250, trimingOrder)
-    function displayList(arrData, rowsPerPage, page) {
+    const trimedData = truncateStrings(testDataRouts, 250, trimingOrder)
+    function displayList(routsData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableRouts');
         tableEl.innerHTML = ''; 
         page--;
@@ -62,13 +70,12 @@ async function paginationMain() {
             button.dataset.id = paginatedData[key]["id"];
             button.dataset.routName = paginatedData[key]["name"];
 
-
-            if (selectedRow && button.dataset.id === selectedRow.dataset.id) {
-                const thElementsInNewRow = newRow.querySelectorAll('th');
-                thElementsInNewRow.forEach(th => {
-                    th.style.backgroundColor = 'var(--bs-info-bg-subtle)';
-                });
-                thWithButton.style.backgroundColor = 'var(--bs-info-bg-subtle)';
+            if (paginatedData[key]["id"] === selectedRoutId) {
+                console.log("123")  
+                newRow.classList.add("selected");
+            }
+            else {
+                newRow.classList.remove("selected");
             }
 
             button.addEventListener("click", async () => {
@@ -76,21 +83,6 @@ async function paginationMain() {
                 document.getElementById("tourGuide").classList.remove('d-none');
                 document.getElementById("footer").classList.remove('bg-light');
                 document.getElementById("routNameForGuidDisplay").textContent = button.dataset.routName;
-                
-                if (selectedRow) {
-                    const thElementsInSelectedRow = selectedRow.closest('tr').querySelectorAll('th');
-                    thElementsInSelectedRow.forEach(th => {
-                        th.style.backgroundColor = '';
-                    });
-                }
-
-                const thElementsInNewRow = newRow.querySelectorAll('th');
-        
-                thElementsInNewRow.forEach(th => {
-                    th.style.backgroundColor = 'var(--bs-info-bg-subtle)';
-                });
-
-                selectedRow = button;
             });
 
             thWithButton.appendChild(button);
@@ -245,6 +237,8 @@ async function paginationMain() {
 }
 
 async function mainTourGuidesData(id, routName){
+    selectedRoutId = button.dataset.id;
+    displayList(trimedData, currentPage, page)
     const tourGuidesData = await getRoutGuidesData(id);
     const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
     const maxWorkExperience = Math.max(...workExperienceValues);
@@ -431,6 +425,10 @@ function updateCostModal(priceHour) {
     document.getElementById("totalPriceDisplay").textContent = totalPrice;
 
     updateCostModal.guidePricePerHour = guidePricePerHour;
+
+    document.getElementById("btnSendOrder").addEventListener("click", () => {
+
+    });
 };
 
 document.getElementById('orderingModal').addEventListener('input', () => {
