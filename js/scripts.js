@@ -237,7 +237,7 @@ async function paginationMain() {
 }
 
 async function mainTourGuidesData(id, routName){
-    selectedRoutId = button.dataset.id;
+    selectedRoutId = id;
     displayList(trimedData, currentPage, page)
     const tourGuidesData = await getRoutGuidesData(id);
     const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
