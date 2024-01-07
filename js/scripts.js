@@ -238,7 +238,7 @@ async function paginationMain() {
 
     async function mainTourGuidesData(id, routName){
         selectedRoutId = id;
-        displayList(trimedData, currentPage, rows);
+        displayList(trimedData, rows, currentPage);
         const tourGuidesData = await getRoutGuidesData(id);
         const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
         const maxWorkExperience = Math.max(...workExperienceValues);
