@@ -83,6 +83,7 @@ async function paginationMain() {
                 document.getElementById("tourGuide").classList.remove('d-none');
                 document.getElementById("footer").classList.remove('bg-light');
                 document.getElementById("routNameForGuidDisplay").textContent = button.dataset.routName;
+                displayList(trimedData, currentPage, page)
             });
 
             thWithButton.appendChild(button);
@@ -238,7 +239,6 @@ async function paginationMain() {
 
 async function mainTourGuidesData(id, routName){
     selectedRoutId = id;
-    paginationMain();
     const tourGuidesData = await getRoutGuidesData(id);
     const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
     const maxWorkExperience = Math.max(...workExperienceValues);
