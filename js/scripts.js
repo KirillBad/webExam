@@ -418,7 +418,7 @@ function updateCostModal(priceHour) {
         } 
     }
 
-    totalPrice += "р";
+    totalPrice = Math.ceil(totalPrice) + "р";
 
     document.getElementById("totalPriceDisplay").textContent = totalPrice;
 
