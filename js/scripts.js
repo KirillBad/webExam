@@ -265,6 +265,13 @@ async function mainTourGuidesData(id, routName){
         const propertiesOrder = ['name', 'language', 'workExperience', 'pricePerHour'];
         for (key in data) {
             const newRow = document.createElement('tr');
+            const thWithImg = document.createElement("th");
+            thWithImg.setAttribute('scope', 'col'); 
+            const img = document.createElement("img");
+            img.src = "./img/guideImg";
+            img.width = "70";
+            img.height = "70";
+            thWithImg.appendChild(img);
             for (prop of propertiesOrder) {
                 const th = document.createElement('th');
                 th.setAttribute('scope', 'col');
