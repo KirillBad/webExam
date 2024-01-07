@@ -43,8 +43,8 @@ let rows = 5;
 async function paginationMain() {
     const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
-    const trimedData = truncateStrings(testDataRouts, 250, trimingOrder)
-    function displayList(routsData, rowsPerPage, page) {
+    const trimedData = truncateStrings(routsData, 250, trimingOrder)
+    function displayList(trimedData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableRouts');
         tableEl.innerHTML = ''; 
         page--;
