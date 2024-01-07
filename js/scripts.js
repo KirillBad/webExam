@@ -393,7 +393,7 @@ async function paginationMain() {
         let inputCarCheckBox = document.getElementById('carCheckBox');
         let dayMultiplier = 1;
     
-        const date = new Date(inputDate.value);
+        let date = new Date(inputDate.value);
         const dayOfWeek = date.getDay();
         if (dayOfWeek === 0 || dayOfWeek === 6) {
             dayMultiplier = 1.5;
