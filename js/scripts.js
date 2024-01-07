@@ -268,10 +268,11 @@ async function mainTourGuidesData(id, routName){
             const thWithImg = document.createElement("th");
             thWithImg.setAttribute('scope', 'col'); 
             const img = document.createElement("img");
-            img.src = "./img/guideImg";
+            img.src = "/img/guideImg.png";
             img.width = "70";
             img.height = "70";
             thWithImg.appendChild(img);
+            newRow.appendChild(thWithImg);
             for (prop of propertiesOrder) {
                 const th = document.createElement('th');
                 th.setAttribute('scope', 'col');
