@@ -28,6 +28,7 @@ function truncateStrings(data, maxLength, keys) {
     return data;
 }
 
+let selectedRow = null;
 async function paginationMain() {
     let currentPage = 1;
     let rows = 5;
@@ -59,11 +60,37 @@ async function paginationMain() {
             button.className = 'btn btn-outline-primary';
             button.textContent = 'Выбрать';
             button.dataset.id = paginatedData[key]["id"];
+            button.dataset.routName = paginatedData[key]["name"];
+
+
+            if (selectedRow && button.dataset.id === selectedRow.dataset.id) {
+                const thElementsInNewRow = newRow.querySelectorAll('th');
+                thElementsInNewRow.forEach(th => {
+                    th.style.backgroundColor = 'var(--bs-info-bg-subtle)';
+                });
+                thWithButton.style.backgroundColor = 'var(--bs-info-bg-subtle)';
+            }
 
             button.addEventListener("click", async () => {
-                await mainTourGuidesData(button.dataset.id);
+                await mainTourGuidesData(button.dataset.id, button.dataset.routName);
                 document.getElementById("tourGuide").classList.remove('d-none');
                 document.getElementById("footer").classList.remove('bg-light');
+                document.getElementById("routNameForGuidDisplay").textContent = button.dataset.routName;
+                
+                if (selectedRow) {
+                    const thElementsInSelectedRow = selectedRow.closest('tr').querySelectorAll('th');
+                    thElementsInSelectedRow.forEach(th => {
+                        th.style.backgroundColor = '';
+                    });
+                }
+
+                const thElementsInNewRow = newRow.querySelectorAll('th');
+        
+                thElementsInNewRow.forEach(th => {
+                    th.style.backgroundColor = 'var(--bs-info-bg-subtle)';
+                });
+
+                selectedRow = button;
             });
 
             thWithButton.appendChild(button);
@@ -217,7 +244,7 @@ async function paginationMain() {
     displaySelect(trimedData);
 }
 
-async function mainTourGuidesData(id){
+async function mainTourGuidesData(id, routName){
     const tourGuidesData = await getRoutGuidesData(id);
     const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
     const maxWorkExperience = Math.max(...workExperienceValues);
@@ -248,7 +275,20 @@ async function mainTourGuidesData(id){
             thWithButton.setAttribute('scope', 'col'); 
             const button = document.createElement('button');
             button.className = 'btn btn-outline-primary';
+            button.type = 'button';
+            button.setAttribute('data-bs-toggle', 'modal');
+            button.setAttribute('data-bs-target', '#exampleModal');
             button.textContent = 'Выбрать';
+
+            button.dataset.guideName = data[key]["name"];
+            button.dataset.guidepricePerHour = data[key]["pricePerHour"];
+
+            button.addEventListener("click", async () => {
+                document.getElementById("displayGuideName").textContent = "Гид: " + button.dataset.guideName;
+                document.getElementById("displayRoutName").textContent = "Маршрут: " + routName;
+                updateCostModal(button.dataset.guidepricePerHour);
+            });
+
             thWithButton.appendChild(button);
             newRow.appendChild(thWithButton);
             tableEl.appendChild(newRow);
@@ -314,7 +354,95 @@ async function mainTourGuidesData(id){
     })
 
     displaySelectLanguage(tourGuidesData);
-    console.log(slider.value)
 }
 
 paginationMain()
+
+
+function updateCostModal(priceHour) {
+    const publicHolidaysList = [
+        "2024-02-23",
+        "2024-03-08",
+        "2024-04-29",
+        "2024-04-30",
+        "2024-05-01",
+        "2024-05-09",
+        "2024-05-10",
+        "2024-06-12",
+        "2024-11-04",
+        "2024-12-30",
+        "2024-12-31",
+    ];
+
+    const guidePricePerHour = priceHour !== undefined ? priceHour : updateCostModal.guidePricePerHour;
+    let inputDate = document.getElementById('routDate');
+    let inputTime = document.getElementById('routTime');
+    let inputSelect = document.getElementById('selectHours');
+    let inputPeopleCount = document.getElementById('peopleCount');
+    let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+    let inputCarCheckBox = document.getElementById('carCheckBox');
+    let dayMultiplier = 1;
+
+    const date = new Date(inputDate.value);
+    const dayOfWeek = date.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+        dayMultiplier = 1.5;
+    }
+    const formattedDate = date.toISOString().split('T')[0];
+    if (publicHolidaysList.includes(formattedDate)) {
+        dayMultiplier = 1.5;
+    }
+
+    const currentTime = new Date(`2000-01-01T${inputTime.value}`);
+    const hour = currentTime.getHours();
+    const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
+    const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
+
+    const peopleCountCost = 
+    inputPeopleCount.value >= 1 && inputPeopleCount.value <= 5 ? 0 :
+    inputPeopleCount.value > 5 && inputPeopleCount.value <= 10 ? 1000 :
+    inputPeopleCount.value > 10 && inputPeopleCount.value <= 20 ? 1500 : 0;
+ 
+    let totalPrice = guidePricePerHour * inputSelect.value.split(' ')[0] * dayMultiplier + earlyTimeCost + lateTimeCost + peopleCountCost;
+
+    if (inputTourGuideCheckBox.checked) {
+        totalPrice *= 1.3;
+    }
+
+    if (inputCarCheckBox.checked) {
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            totalPrice *= 1.25;
+        }
+        else {
+            totalPrice *= 1.3;
+        } 
+    }
+
+    totalPrice += "р";
+
+    document.getElementById("totalPriceDisplay").textContent = totalPrice;
+
+    updateCostModal.guidePricePerHour = guidePricePerHour;
+};
+
+document.getElementById('orderingModal').addEventListener('input', () => {
+    updateCostModal()
+});
+
+document.getElementById('orderingModal').addEventListener('change', () => {
+    updateCostModal();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    let inputDate = document.getElementById('routDate');
+
+    let today = new Date();
+    let yyyy = today.getFullYear();
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let dd = String(today.getDate()).padStart(2, '0');
+    let currentDate = yyyy + '-' + mm + '-' + dd;
+
+    inputDate.setAttribute('min', currentDate);
+    inputDate.setAttribute('max', yyyy + '-12-31');
+    inputDate.value = currentDate;
+});

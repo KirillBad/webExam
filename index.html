@@ -6,7 +6,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <title>MosTourism</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
   <!-- navbar -->
@@ -139,7 +139,12 @@
   </section>
 
   <section class="bg-light d-none" id="tourGuide">
-    <div class="display-2 text-center">Гиды по маршруту</div>
+    <div class="row text-center">
+      <div class="col">
+        <div class="display-2">Гиды по маршруту</div>
+        <div class="display-6" id="routNameForGuidDisplay"></div>
+      </div>
+    </div>
     <div class="container-lg">
       <div class="row justify-content-between mt-3 text-center">
         <div class="col-5 col-md-3">
@@ -201,8 +206,92 @@
     </footer> 
   </section>
 
-  <script src="settings.js"></script>
-  <script src="scripts.js"></script>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Оформление заявки</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="orderingModal">
+          <div class="row justify-content-center">
+            <div class="col text-center h6" id="displayGuideName"></div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col text-center h6" id="displayRoutName"></div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-4">
+              <p class="h6 text-center">Дата</p>
+              <input class="form-control" required type="date" id="routDate">
+            </div>
+            <div class="col-3">
+              <p class="h6 text-center">Время</p>
+              <input class="form-control" type="time" min="09:00" max="23:00" step="1800" id="routTime">
+            </div>
+            <div class="col-3">
+              <p class="h6 text-center">Длительность</p>
+              <select class="form-select" aria-label="Default select example" id="selectHours">
+                <option value="1">1 час</option>
+                <option value="2">2 часа</option>
+                <option value="3">3 часа</option>
+              </select>
+            </div>
+          </div>
+          <div class="row justify-content-center mt-4">
+            <div class="col-4 h6 text-center">
+              <p>Количество человек:</p>
+            </div>
+            <div class="col-4 h6">
+              <input type="number" class="form-control" min="1" max="20" value="1" id="peopleCount">
+            </div>
+          </div>
+          <div class="row justify-content-center text-center">
+            <div class="col h6">
+              <p>Дополнительные опции</p>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-5 text-center">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="tourGuideCheckBox">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Быстрый выезд гида
+                </label>
+              </div>
+              <p class="h6">Гид будет в течение часа</p>
+              <p class="h6"><small>+30% к стоимости</small></p>
+            </div>
+            <div class="col-5 text-center">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="carCheckBox">
+                <label class="form-check-label" for="flexCheckDefault">
+                  VIP трансфер
+                </label>
+              </div>
+              <p class="h6">Персональный трансфер до ближайшего метро после экскурсии</p>
+              <p class="h6"><small>+30% к стоимости в буднии и +25% в выходные</small></p>
+            </div>
+          </div>
+          <div class="row justify-content-center my-4">
+            <div class="col-5 text-end">
+              <p class="h6">Итоговая стоимость: </p>
+            </div>
+            <div class="col-4 text-start">
+              <p class="h6" id="totalPriceDisplay"></p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-primary">Отправить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/settings.js"></script>
+  <script src="./js/scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
