@@ -286,7 +286,7 @@ async function paginationMain() {
                 button.dataset.guidepricePerHour = data[key]["pricePerHour"];
                 button.dataset.tourGuidId = data[key]["id"];
     
-                button.addEventListener("click", () => {
+                button.addEventListener("click", async () => {
                     document.getElementById("displayGuideName").textContent = "Гид: " + button.dataset.guideName;
                     document.getElementById("displayRoutName").textContent = "Маршрут: " + routName;
                     updateCostModal(button.dataset.guidepricePerHour);
