@@ -44,7 +44,7 @@ async function paginationMain() {
     const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
     const trimedData = truncateStrings(routsData, 250, trimingOrder)
-    function displayList(trimedData, rowsPerPage, page) {
+    function displayList(arrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableRouts');
         tableEl.innerHTML = ''; 
         page--;
