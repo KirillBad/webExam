@@ -453,8 +453,8 @@ async function paginationMain() {
                 duration : inputSelect.value.split(' ')[0],
                 persons : inputPeopleCount.value,
                 price : totalPriceNoString,
-                optionFirst : inputTourGuideCheckBox.value,
-                optionSecond : inputCarCheckBox.value
+                optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
+                optionSecond : inputCarCheckBox.checked ? 1 : 0
             };
             console.log(sendOrderData);
         });
