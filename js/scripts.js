@@ -67,8 +67,6 @@ function truncateStrings(data, maxLength, keys) {
     return data;
 };
 
-const routsData = await getRoutsData();
-
 async function paginationMain() {
     let selectedRoutId = null;
     let currentPage = 1;
@@ -499,6 +497,7 @@ async function mainAccount () {
     let currentPage = 1;
     let rows = 5;
     const orderData = await getOrderData();
+    const routsData = await getRoutsData();
 
     // const orderData = testOrderData;
     // const routsData = testRoutsData;
