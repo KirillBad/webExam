@@ -5,7 +5,7 @@ async function getRoutsData() {
     let response = await fetch(urlWithApiKey);
     let content = await response.json();
     return content;
-}
+};
 
 async function getRoutGuidesData(routId) {
     const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
@@ -14,7 +14,7 @@ async function getRoutGuidesData(routId) {
     let response = await fetch(urlWithApiKey);
     let content = await response.json();
     return content;
-}
+};
 
 async function sendOrderData(data) {
     const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
@@ -31,13 +31,28 @@ async function sendOrderData(data) {
     let content = await response.json();
     console.log(content);
     return content;
-}
+};
 
 async function getOrderData() {
     const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     let response = await fetch(urlWithApiKey);
+    let content = await response.json();
+    return content;
+};
+
+async function deleteOrder(orderId) {
+    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
+    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${routId}`;
+    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+    let response = await fetch(urlWithApiKey, {
+        method : "DELETE", 
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        body: new URLSearchParams(orderId).toString()
+    });
     let content = await response.json();
     return content;
 }
@@ -51,7 +66,7 @@ function truncateStrings(data, maxLength, keys) {
         });
     });
     return data;
-}
+};
 
 async function paginationMain() {
     let selectedRoutId = null;
@@ -478,7 +493,7 @@ async function paginationMain() {
     document.getElementById('orderingModal').addEventListener('change', () => {
         updateCostModal();
     });
-}
+};
 
 async function mainAccount () {
     let currentPage = 1;
@@ -520,8 +535,8 @@ async function mainAccount () {
             for (routKey in routsArrData) {
                 if (routsArrData[routKey]["id"] === paginatedData[key]["route_id"]) {
                     paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
-                }
-            }
+                };
+            };
 
             const newRow = document.createElement('tr');
             const th = document.createElement('th');
@@ -534,7 +549,7 @@ async function mainAccount () {
                 th.setAttribute('scope', 'col');
                 th.textContent = `${paginatedData[key][prop]}`;
                 newRow.appendChild(th);
-            }
+            };
 
             const thWithButton = document.createElement('th');
             thWithButton.setAttribute('scope', 'col'); 
@@ -561,7 +576,7 @@ async function mainAccount () {
                 inputCarCheckBox.disabled = true;
                 document.querySelector(".modal-footer").className = "modal-footer d-none";
                 updateCostModal(paginatedData[key]["pricePerHour"]);
-            })
+            });
             const editbutton = document.createElement('button');
             editbutton.className = 'btn';
             editbutton.innerHTML += `<i class="bi bi-pencil-fill"></i>`;
@@ -585,12 +600,17 @@ async function mainAccount () {
                 inputCarCheckBox.disabled = false;
                 document.querySelector(".modal-footer").className = "modal-footer";
                 updateCostModal(paginatedData[key]["pricePerHour"]);
-            })
+            });
             const deletebutton = document.createElement('button');
             deletebutton.className = 'btn';
             deletebutton.innerHTML += `<i class="bi bi-trash"></i>`;
             deletebutton.setAttribute('data-bs-toggle', 'modal');
             deletebutton.setAttribute('data-bs-target', '#deleteModal');
+
+            document.getElementById(modalFooterBtn).addEventListener("click", async () => {
+                deleteData = {id : paginatedData[key]["id"]};
+                deleteOrder(deleteData);
+            });
 
             thWithButton.appendChild(watchbutton);
             thWithButton.appendChild(editbutton);
