@@ -235,6 +235,20 @@ async function paginationMain() {
     displayPagination(trimedData, rows);
     displaySelect(trimedData);
 
+    document.addEventListener('DOMContentLoaded', function () {
+        let inputDate = document.getElementById('routDate');
+    
+        let today = new Date();
+        let yyyy = today.getFullYear();
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = String(today.getDate()).padStart(2, '0');
+        let currentDate = yyyy + '-' + mm + '-' + dd;
+    
+        inputDate.setAttribute('min', currentDate);
+        inputDate.setAttribute('max', yyyy + '-12-31');
+        inputDate.value = currentDate;
+    });
+
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
             "2024-02-23",
@@ -447,20 +461,6 @@ async function paginationMain() {
         
         document.getElementById('orderingModal').addEventListener('change', () => {
             updateCostModal();
-        });
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            let inputDate = document.getElementById('routDate');
-        
-            let today = new Date();
-            let yyyy = today.getFullYear();
-            let mm = String(today.getMonth() + 1).padStart(2, '0');
-            let dd = String(today.getDate()).padStart(2, '0');
-            let currentDate = yyyy + '-' + mm + '-' + dd;
-        
-            inputDate.setAttribute('min', currentDate);
-            inputDate.setAttribute('max', yyyy + '-12-31');
-            inputDate.value = currentDate;
         });
     }
 }
