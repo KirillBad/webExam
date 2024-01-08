@@ -608,6 +608,7 @@ async function mainAccount () {
 
             document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
                 deleteOrder(paginatedData[key]["id"]);
+                displayList(orderData, routsData, rows, currentPage);
             });
 
             thWithButton.appendChild(watchbutton);
