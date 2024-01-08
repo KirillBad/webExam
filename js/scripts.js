@@ -34,6 +34,15 @@ async function sendOrderData(data) {
     return content;
 }
 
+async function getOrderData() {
+    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
+    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
+    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+    let response = await fetch(urlWithApiKey);
+    let content = await response.json();
+    return content;
+}
+
 function truncateStrings(data, maxLength, keys) {
     data.forEach(obj => {
         keys.forEach(key => {
@@ -45,10 +54,10 @@ function truncateStrings(data, maxLength, keys) {
     return data;
 }
 
-let selectedRoutId = null;
-let currentPage = 1;
-let rows = 5;
 async function paginationMain() {
+    let selectedRoutId = null;
+    let currentPage = 1;
+    let rows = 5;
     const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
     const trimedData = truncateStrings(routsData, 250, trimingOrder)
@@ -482,5 +491,154 @@ document.addEventListener('DOMContentLoaded', function () {
     inputDate.value = currentDate;
 });
 
+async function mainAccount () {
+    let currentPage = 1;
+    let rows = 5;
+    orderData = await getOrderData();
+    routsData = await getRoutsData();
+
+    function displayList(arrData, routsArrData, rowsPerPage, page) {
+        const tableEl = document.getElementById('tableOrders');
+        tableEl.innerHTML = ''; 
+        page--;
+        const start = rowsPerPage * page;
+        const end = start + rowsPerPage;
+        const paginatedData = arrData.slice(start, end);
+        const propertiesOrder = ['id', 'date', 'price'];
+
+        for (key in paginatedData) {
+            for (routKey in routsArrData) {
+                if (routsArrData[key]["id"] = paginatedData[key]["id"]) {
+                    paginatedData[key]["id"] = routsArrData[key]["name"];
+                }
+            }
+
+            const newRow = document.createElement('tr');
+            for (prop of propertiesOrder) {
+                const th = document.createElement('th');
+                th.setAttribute('scope', 'col');
+                th.textContent = `${paginatedData[key][prop]}`;
+                newRow.appendChild(th);
+            }
+
+            const thWithButton = document.createElement('th');
+            thWithButton.setAttribute('scope', 'col'); 
+            const button = document.createElement('button');
+            button.className = 'btn btn-outline-primary';
+            button.textContent = 'Выбрать';
+            button.dataset.id = paginatedData[key]["id"];
+            button.dataset.routName = paginatedData[key]["name"];
+
+            if (paginatedData[key]["id"] == selectedRoutId) {
+                newRow.classList.add("selected");
+            }
+            else {
+                newRow.classList.remove("selected");
+            }
+
+            button.addEventListener("click", async () => {
+                await mainTourGuidesData(button.dataset.id, button.dataset.routName);
+                document.getElementById("tourGuide").classList.remove('d-none');
+                document.getElementById("footer").classList.remove('bg-light');
+                document.getElementById("routNameForGuidDisplay").textContent = button.dataset.routName;
+            });
+
+            thWithButton.appendChild(button);
+            newRow.appendChild(thWithButton);
+            tableEl.appendChild(newRow);
+        };
+    }
+
+    function displayPagination(arrData, rowsPerPage) {
+        const paginationEl = document.querySelector('.paginationOrders');
+        paginationEl.innerHTML = '';
+        const pagesCount = Math.ceil(arrData.length / rowsPerPage);
+        const prevLi = document.createElement('li');
+        prevLi.classList.add('page-item');
+        const prevA = document.createElement('a');
+        prevA.classList.add('page-link');
+        prevA.href = '#';
+        prevA.setAttribute('aria-label', 'Previous');
+        const prevSpan = document.createElement('span');
+        prevSpan.setAttribute('aria-hidden', 'true');
+        prevSpan.textContent = '«';
+        prevA.appendChild(prevSpan);
+
+        prevA.addEventListener('click', () => {
+            event.preventDefault();
+            if (currentPage - 1 > 0){
+                currentPage -= 1;
+                const paginationItems = document.querySelectorAll('.pagination .page-item');
+                paginationItems.forEach(item => item.classList.remove('active'));
+                const prevPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
+                prevPaginationItem.classList.add('active');
+            }
+            displayList(arrData, rows, currentPage);
+        });
+
+        prevLi.appendChild(prevA);
+        paginationEl.appendChild(prevLi);
+        for (let i = 0; i < pagesCount; i++) {
+            const liEl = displayPaginationBtn(i + 1, arrData);
+            paginationEl.appendChild(liEl);
+        }
+
+        const nextLi = document.createElement('li');
+        nextLi.classList.add('page-item');
+        const nextA = document.createElement('a');
+        nextA.classList.add('page-link');
+        nextA.href = '#';
+        nextA.setAttribute('aria-label', 'Next');
+        const nextSpan = document.createElement('span');
+        nextSpan.setAttribute('aria-hidden', 'true');
+        nextSpan.textContent = '»';
+
+        nextA.addEventListener('click', () => {
+            event.preventDefault();
+            if (currentPage + 1 <= pagesCount){
+                currentPage += 1;
+                const paginationItems = document.querySelectorAll('.pagination .page-item');
+                paginationItems.forEach(item => item.classList.remove('active'));
+                const nextPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
+                nextPaginationItem.classList.add('active');
+            }
+            displayList(arrData, rows, currentPage);
+        });
+
+        nextA.appendChild(nextSpan);
+        nextLi.appendChild(nextA);
+        paginationEl.appendChild(nextLi);
+
+        const buttons = document.querySelectorAll('.pagination .page-link');
+        buttons.forEach(button => {
+            if (button.textContent.trim() === '1') {
+                button.parentElement.classList.add('active');
+            }
+        });
+    }
+
+    function displayPaginationBtn(page, data) {
+        const liEl = document.createElement('li');
+        liEl.classList.add('page-item');
+        const aEl = document.createElement('a');
+        aEl.classList.add('page-link');
+        aEl.textContent = page;
+        aEl.href = '#';
+        liEl.appendChild(aEl);
+        liEl.addEventListener('click', () => {
+            event.preventDefault();
+            const paginationItems = document.querySelectorAll('.pagination .page-item');
+            paginationItems.forEach(item => item.classList.remove('active'));
+            currentPage = page;
+            liEl.classList.add('active');
+            displayList(data, rows, currentPage);
+        });
+        return liEl;
+    }
+    displayList(orderData, rows, currentPage);
+    displayPagination(orderData, rows);
+}
+
 paginationMain()
+mainAccount()
 
