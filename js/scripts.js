@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let inputDate = document.getElementById('routDate');
 
     let today = new Date();
-    
+    today.setDate(today.getDate() + 1);
     let yyyy = today.getFullYear();
     let mm = String(today.getMonth() + 1).padStart(2, '0');
     let dd = String(today.getDate()).padStart(2, '0');
