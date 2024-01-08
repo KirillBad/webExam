@@ -71,6 +71,7 @@ async function paginationMain() {
     let selectedRoutId = null;
     let currentPage = 1;
     let rows = 5;
+    const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
     const trimedData = truncateStrings(routsData, 250, trimingOrder)
     function displayList(arrData, rowsPerPage, page) {
