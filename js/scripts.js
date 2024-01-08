@@ -498,8 +498,12 @@ async function mainAccount () {
 
     for (key in orderData) {
         const routGuideData = await getRoutGuidesData(orderData[key]["guide_id"]);
-        console.log(routGuideData);
-        orderData[key]["pricePerHour"] = routGuideData["pricePerHour"];
+        for (guide in routGuideData) {
+            if (routGuideData[guide]['id'] === orderData[key]['guide_id']) {
+                orderData[key]["pricePerHour"] = routGuideData[guide]['pricePerHour'];
+            }
+        }
+        console.log(orderData[key]["pricePerHour"]);
     }
 
     function displayList(arrData, routsArrData, rowsPerPage, page) {
