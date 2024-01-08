@@ -325,6 +325,7 @@ async function paginationMain() {
         const selectLangugageEl = document.getElementById("guidesSelect");
     
         displayTourGuidesData(tourGuidesData);
+        displaySelectLanguage(tourGuidesData);
 
         function displayTourGuidesData(data) {
             const tableEl = document.getElementById('tableTourGuides');
@@ -438,17 +439,15 @@ async function paginationMain() {
                 }
             }
         })
-    
-        displaySelectLanguage(tourGuidesData);
-        
-        document.getElementById('orderingModal').addEventListener('input', () => {
-            updateCostModal()
-        });
-        
-        document.getElementById('orderingModal').addEventListener('change', () => {
-            updateCostModal();
-        });
     }
+    
+    document.getElementById('orderingModal').addEventListener('input', () => {
+        updateCostModal()
+    });
+    
+    document.getElementById('orderingModal').addEventListener('change', () => {
+        updateCostModal();
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
