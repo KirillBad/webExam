@@ -444,7 +444,7 @@ async function paginationMain() {
         updateCostModal.guidePricePerHour = guidePricePerHour;
 
         document.getElementById("btnSendOrder").addEventListener("click", async () => {
-            const sendOrderData = {
+            const sendingOrderData = {
                 guide_id: selectedTourGuideId,
                 route_id : selectedRoutId,
                 date : inputDate.value,
@@ -455,7 +455,7 @@ async function paginationMain() {
                 optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
                 optionSecond : inputCarCheckBox.checked ? 1 : 0
             };
-            await sendOrderData(sendOrderData);
+            await sendOrderData(sendingOrderData);
         });
     };
     
