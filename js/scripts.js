@@ -811,5 +811,15 @@ document.addEventListener('DOMContentLoaded', function () {
     inputDate.value = currentDate;
 });
 
+const toastTrigger = document.getElementById('btnSendOrder')
+const toastLiveExample = document.getElementById('liveToast')
+
+if (toastTrigger) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+  toastTrigger.addEventListener('click', () => {
+    toastBootstrap.show()
+  })
+}
+
 paginationMain()
 mainAccount()
