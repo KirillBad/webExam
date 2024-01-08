@@ -98,6 +98,11 @@ async function paginationMain() {
                 document.getElementById("tourGuide").classList.remove('d-none');
                 document.getElementById("footer").classList.remove('bg-light');
                 document.getElementById("routNameForGuidDisplay").textContent = button.dataset.routName;
+                const allRows = tableEl.getElementsByTagName('tr');
+                for (const row of allRows) {
+                    row.classList.remove('selected');
+                }
+                newRow.classList.add("selected")
             });
 
             thWithButton.appendChild(button);
@@ -254,8 +259,7 @@ async function paginationMain() {
     let selectedTourGuideId = null;
     async function mainTourGuidesData(id, routName){
         selectedRoutId = id;
-                
-        displayList(trimedData, rows, currentPage);
+
         const tourGuidesData = await getRoutGuidesData(id);
         const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
         const maxWorkExperience = Math.max(...workExperienceValues);
@@ -481,11 +485,9 @@ async function mainAccount () {
     let rows = 5;
     const orderData = await getOrderData();
     const routsData = await getRoutsData();
-    const guideData = await getRoutGuidesData();
 
     // const orderData = testOrderData;
     // const routsData = testRoutsData;
-    // const guideData = testGuideData;
 
     let inputDate = document.getElementById('routDate');
     let inputTime = document.getElementById('routTime');
@@ -494,7 +496,7 @@ async function mainAccount () {
     let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
     let inputCarCheckBox = document.getElementById('carCheckBox');
 
-    function displayList(arrData, routsArrData, guideDataArr, rowsPerPage, page) {
+    async function displayList(arrData, routsArrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
         tableEl.innerHTML = ''; 
         page--;
@@ -509,12 +511,11 @@ async function mainAccount () {
                     paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
                 }
             }
-            for (guideKey in guideData) {
-                if (guideDataArr[guideKey]["id"] = paginatedData[key]["guide_id"]) {
-                    paginatedData[key]["guide_name"] = guideDataArr[guideKey]["name"];
-                    paginatedData[key]["pricePerHour"] = guideDataArr[guideKey]["pricePerHour"];
-                }
-            }
+
+            const routGuideData = await getRoutGuidesData(paginatedData[key]["guide_id"]);
+            console.log(routGuideData);
+            paginatedData[key]["pricePerHour"] = routGuideData["pricePerHour"];
+            console.log(paginatedData[key]["pricePerHour"]);
 
             const newRow = document.createElement('tr');
             const th = document.createElement('th');
@@ -593,7 +594,7 @@ async function mainAccount () {
                 const prevPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
                 prevPaginationItem.classList.add('active');
             }
-            displayList(arrData, routsData, guideData, rows, currentPage);
+            displayList(arrData, routsData, rows, currentPage);
         });
 
         prevLi.appendChild(prevA);
@@ -622,7 +623,7 @@ async function mainAccount () {
                 const nextPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
                 nextPaginationItem.classList.add('active');
             }
-            displayList(arrData, routsData, guideData, rows, currentPage);
+            displayList(arrData, routsData, rows, currentPage);
         });
 
         nextA.appendChild(nextSpan);
@@ -651,11 +652,11 @@ async function mainAccount () {
             paginationItems.forEach(item => item.classList.remove('active'));
             currentPage = page;
             liEl.classList.add('active');
-            displayList(data, routsData, guideData, rows, currentPage);
+            displayList(data, routsData, rows, currentPage);
         });
         return liEl;
     }
-    displayList(orderData, routsData, guideData, rows, currentPage);
+    displayList(orderData, routsData, rows, currentPage);
     displayPagination(orderData, rows);
 
     function updateCostModal(priceHour) {
