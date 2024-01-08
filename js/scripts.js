@@ -242,10 +242,10 @@ async function paginationMain() {
     displayPagination(trimedData, rows);
     displaySelect(trimedData);
 
+    let selectedTourGuideId = null;
     async function mainTourGuidesData(id, routName){
         selectedRoutId = id;
                 
-        let selectedTourGuideId = null;
         displayList(trimedData, rows, currentPage);
         const tourGuidesData = await getRoutGuidesData(id);
         const workExperienceValues = tourGuidesData.map(guide => guide["workExperience"]);
