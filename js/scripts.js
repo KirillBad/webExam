@@ -403,6 +403,12 @@ async function paginationMain() {
         })
     }
 
+    let inputDate = document.getElementById('routDate');
+    let inputTime = document.getElementById('routTime');
+    let inputSelect = document.getElementById('selectHours');
+    let inputPeopleCount = document.getElementById('peopleCount');
+    let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+    let inputCarCheckBox = document.getElementById('carCheckBox');
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
             "2024-02-23",
@@ -419,12 +425,6 @@ async function paginationMain() {
         ];
     
         const guidePricePerHour = priceHour !== undefined ? priceHour : updateCostModal.guidePricePerHour;
-        let inputDate = document.getElementById('routDate');
-        let inputTime = document.getElementById('routTime');
-        let inputSelect = document.getElementById('selectHours');
-        let inputPeopleCount = document.getElementById('peopleCount');
-        let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
-        let inputCarCheckBox = document.getElementById('carCheckBox');
         let dayMultiplier = 1;
     
         let date = new Date(inputDate.value);
@@ -468,22 +468,22 @@ async function paginationMain() {
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
-
-        document.getElementById("btnSendOrder").addEventListener("click", async () => {
-            const sendingOrderData = {
-                guide_id: selectedTourGuideId,
-                route_id : selectedRoutId,
-                date : inputDate.value,
-                time: inputTime.value,
-                duration : inputSelect.value.split(' ')[0],
-                persons : inputPeopleCount.value,
-                price : totalPriceNoString,
-                optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
-                optionSecond : inputCarCheckBox.checked ? 1 : 0
-            };
-            await sendOrderData(sendingOrderData);
-        });
     };
+
+    document.getElementById("btnSendOrder").addEventListener("click", async () => {
+        const sendingOrderData = {
+            guide_id: selectedTourGuideId,
+            route_id : selectedRoutId,
+            date : inputDate.value,
+            time: inputTime.value,
+            duration : inputSelect.value.split(' ')[0],
+            persons : inputPeopleCount.value,
+            price : totalPriceNoString,
+            optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
+            optionSecond : inputCarCheckBox.checked ? 1 : 0
+        };
+        await sendOrderData(sendingOrderData);
+    });
     
     document.getElementById('orderingModal').addEventListener('input', () => {
         updateCostModal()
@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let inputDate = document.getElementById('routDate');
 
     let today = new Date();
-    today.setDate(today.getDate() + 1);
+    
     let yyyy = today.getFullYear();
     let mm = String(today.getMonth() + 1).padStart(2, '0');
     let dd = String(today.getDate()).padStart(2, '0');
