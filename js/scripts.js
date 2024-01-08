@@ -498,12 +498,13 @@ async function mainAccount () {
 
     for (key in orderData) {
         const routGuideData = await getRoutGuidesData(orderData[key]["route_id"]);
+        // const routGuideData = testGuideData;
         for (guide in routGuideData) {
             if (routGuideData[guide]['id'] === orderData[key]['guide_id']) {
                 orderData[key]["pricePerHour"] = routGuideData[guide]['pricePerHour'];
+                orderData[key]["guide_name"] = routGuideData[guide]['name'];
             }
         }
-        console.log(orderData[key]["pricePerHour"]);
     }
 
     function displayList(arrData, routsArrData, rowsPerPage, page) {
@@ -543,6 +544,7 @@ async function mainAccount () {
             watchbutton.setAttribute('data-bs-toggle', 'modal');
             watchbutton.setAttribute('data-bs-target', '#exampleModal');
             watchbutton.addEventListener("click", () => {
+                document.getElementById("exampleModalLabel").textContent = "Заявка номер " + paginatedData[key]["id"]
                 document.getElementById("displayGuideName").textContent = "Гид: " + paginatedData[key]["guide_name"];
                 document.getElementById("displayRoutName").textContent = "Маршрут: " + paginatedData[key]["route_id"];
                 inputDate.value = paginatedData[key]["date"];
@@ -557,14 +559,38 @@ async function mainAccount () {
                 inputTourGuideCheckBox.disabled = true;
                 inputCarCheckBox.checked = paginatedData[key]["optionSecond"];
                 inputCarCheckBox.disabled = true;
+                document.querySelector(".modal-footer").className = "modal-footer d-none";
                 updateCostModal(paginatedData[key]["pricePerHour"]);
             })
             const editbutton = document.createElement('button');
             editbutton.className = 'btn';
             editbutton.innerHTML += `<i class="bi bi-pencil-fill"></i>`;
+            editbutton.setAttribute('data-bs-toggle', 'modal');
+            editbutton.setAttribute('data-bs-target', '#exampleModal');
+            editbutton.addEventListener("click", () => {
+                document.getElementById("exampleModalLabel").textContent = "Редактирование заявки " + paginatedData[key]["id"]
+                document.getElementById("displayGuideName").textContent = "Гид: " + paginatedData[key]["guide_name"];
+                document.getElementById("displayRoutName").textContent = "Маршрут: " + paginatedData[key]["route_id"];
+                inputDate.value = paginatedData[key]["date"];
+                inputDate.disabled = false;
+                inputTime.value = paginatedData[key]["time"];
+                inputTime.disabled = false;
+                inputSelect.value = paginatedData[key]["duration"];
+                inputSelect.disabled = false;
+                inputPeopleCount.value = paginatedData[key]["persons"];
+                inputPeopleCount.disabled = false;
+                inputTourGuideCheckBox.checked = paginatedData[key]["optionFirst"];
+                inputTourGuideCheckBox.disabled = false;
+                inputCarCheckBox.checked = paginatedData[key]["optionSecond"];
+                inputCarCheckBox.disabled = false;
+                document.querySelector(".modal-footer").className = "modal-footer";
+                updateCostModal(paginatedData[key]["pricePerHour"]);
+            })
             const deletebutton = document.createElement('button');
             deletebutton.className = 'btn';
             deletebutton.innerHTML += `<i class="bi bi-trash"></i>`;
+            deletebutton.setAttribute('data-bs-toggle', 'modal');
+            deletebutton.setAttribute('data-bs-target', '#deleteModal');
 
             thWithButton.appendChild(watchbutton);
             thWithButton.appendChild(editbutton);
