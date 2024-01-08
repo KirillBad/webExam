@@ -497,7 +497,7 @@ async function mainAccount () {
     let inputCarCheckBox = document.getElementById('carCheckBox');
 
     for (key in orderData) {
-        const routGuideData = await getRoutGuidesData(orderData[key]["guide_id"]);
+        const routGuideData = await getRoutGuidesData(orderData[key]["route_id"]);
         for (guide in routGuideData) {
             if (routGuideData[guide]['id'] === orderData[key]['guide_id']) {
                 orderData[key]["pricePerHour"] = routGuideData[guide]['pricePerHour'];
@@ -558,7 +558,6 @@ async function mainAccount () {
                 inputCarCheckBox.checked = paginatedData[key]["optionSecond"];
                 inputCarCheckBox.disabled = true;
                 updateCostModal(paginatedData[key]["pricePerHour"]);
-                console.log(paginatedData[key]);
             })
             const editbutton = document.createElement('button');
             editbutton.className = 'btn';
@@ -719,7 +718,6 @@ async function mainAccount () {
     
         totalPriceNoString = Math.ceil(totalPrice);
         totalPrice = Math.ceil(totalPrice) + "р";
-        console.log(totalPrice);
     
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
