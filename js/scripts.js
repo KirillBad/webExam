@@ -476,10 +476,10 @@ async function paginationMain() {
         updateCostModal();
     });
 
-    document.getElementById("account").addEventListener("click", () => {
-        console.log("account");
-        mainAccount();
-    })
+    // document.getElementById("account").addEventListener("click", () => {
+    //     console.log("account");
+    //     mainAccount();
+    // })
 }
 
 async function mainAccount () {
@@ -645,4 +645,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 paginationMain()
+mainAccount()
 
