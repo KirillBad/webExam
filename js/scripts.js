@@ -512,7 +512,7 @@ async function mainAccount () {
 
         for (key in paginatedData) {
             for (routKey in routsArrData) {
-                if (routsArrData[routKey]["id"] = paginatedData[key]["route_id"]) {
+                if (routsArrData[routKey]["id"] === paginatedData[key]["route_id"]) {
                     paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
                 }
             }
