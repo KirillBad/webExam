@@ -481,8 +481,20 @@ async function mainAccount () {
     let rows = 5;
     const orderData = await getOrderData();
     const routsData = await getRoutsData();
+    const guideData = await getRoutGuidesData();
 
-    function displayList(arrData, routsArrData, rowsPerPage, page) {
+    // const orderData = testOrderData;
+    // const routsData = testRoutsData;
+    // const guideData = testGuideData;
+
+    let inputDate = document.getElementById('routDate');
+    let inputTime = document.getElementById('routTime');
+    let inputSelect = document.getElementById('selectHours');
+    let inputPeopleCount = document.getElementById('peopleCount');
+    let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+    let inputCarCheckBox = document.getElementById('carCheckBox');
+
+    function displayList(arrData, routsArrData, guideDataArr, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
         tableEl.innerHTML = ''; 
         page--;
@@ -495,6 +507,12 @@ async function mainAccount () {
             for (routKey in routsArrData) {
                 if (routsArrData[routKey]["id"] = paginatedData[key]["route_id"]) {
                     paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
+                }
+            }
+            for (guideKey in guideData) {
+                if (guideDataArr[guideKey]["id"] = paginatedData[key]["guide_id"]) {
+                    paginatedData[key]["guide_name"] = guideDataArr[guideKey]["name"];
+                    paginatedData[key]["pricePerHour"] = guideDataArr[guideKey]["pricePerHour"];
                 }
             }
 
@@ -516,6 +534,26 @@ async function mainAccount () {
             const watchbutton = document.createElement('button');
             watchbutton.className = 'btn';
             watchbutton.innerHTML += `<i class="bi bi-eye"></i>`;
+            watchbutton.setAttribute('data-bs-toggle', 'modal');
+            watchbutton.setAttribute('data-bs-target', '#exampleModal');
+            watchbutton.addEventListener("click", () => {
+                document.getElementById("displayGuideName").textContent = "Гид: " + paginatedData[key]["guide_name"];
+                document.getElementById("displayRoutName").textContent = "Маршрут: " + paginatedData[key]["route_id"];
+                inputDate.value = paginatedData[key]["date"];
+                inputDate.disabled = true;
+                inputTime.value = paginatedData[key]["time"];
+                inputTime.disabled = true;
+                inputSelect.value = paginatedData[key]["duration"];
+                inputSelect.disabled = true;
+                inputPeopleCount.value = paginatedData[key]["persons"];
+                inputPeopleCount.disabled = true;
+                inputTourGuideCheckBox.checked = paginatedData[key]["optionFirst"];
+                inputTourGuideCheckBox.disabled = true;
+                inputCarCheckBox.checked = paginatedData[key]["optionSecond"];
+                inputCarCheckBox.disabled = true;
+                updateCostModal(paginatedData[key]["pricePerHour"]);
+                console.log(paginatedData[key]);
+            })
             const editbutton = document.createElement('button');
             editbutton.className = 'btn';
             editbutton.innerHTML += `<i class="bi bi-pencil-fill"></i>`;
@@ -555,7 +593,7 @@ async function mainAccount () {
                 const prevPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
                 prevPaginationItem.classList.add('active');
             }
-            displayList(arrData, routsData, rows, currentPage);
+            displayList(arrData, routsData, guideData, rows, currentPage);
         });
 
         prevLi.appendChild(prevA);
@@ -584,7 +622,7 @@ async function mainAccount () {
                 const nextPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
                 nextPaginationItem.classList.add('active');
             }
-            displayList(arrData, routsData, rows, currentPage);
+            displayList(arrData, routsData, guideData, rows, currentPage);
         });
 
         nextA.appendChild(nextSpan);
@@ -613,12 +651,97 @@ async function mainAccount () {
             paginationItems.forEach(item => item.classList.remove('active'));
             currentPage = page;
             liEl.classList.add('active');
-            displayList(data, routsData, rows, currentPage);
+            displayList(data, routsData, guideData, rows, currentPage);
         });
         return liEl;
     }
-    displayList(orderData, routsData, rows, currentPage);
+    displayList(orderData, routsData, guideData, rows, currentPage);
     displayPagination(orderData, rows);
+
+    function updateCostModal(priceHour) {
+        const publicHolidaysList = [
+            "2024-02-23",
+            "2024-03-08",
+            "2024-04-29",
+            "2024-04-30",
+            "2024-05-01",
+            "2024-05-09",
+            "2024-05-10",
+            "2024-06-12",
+            "2024-11-04",
+            "2024-12-30",
+            "2024-12-31",
+        ];
+    
+        const guidePricePerHour = priceHour !== undefined ? priceHour : updateCostModal.guidePricePerHour;
+        let dayMultiplier = 1;
+    
+        let date = new Date(inputDate.value);
+        const dayOfWeek = date.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            dayMultiplier = 1.5;
+        }
+        const formattedDate = date.toISOString().split('T')[0];
+        if (publicHolidaysList.includes(formattedDate)) {
+            dayMultiplier = 1.5;
+        }
+    
+        const currentTime = new Date(`2000-01-01T${inputTime.value}`);
+        const hour = currentTime.getHours();
+        const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
+        const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
+    
+        const peopleCountCost = 
+        inputPeopleCount.value >= 1 && inputPeopleCount.value <= 5 ? 0 :
+        inputPeopleCount.value > 5 && inputPeopleCount.value <= 10 ? 1000 :
+        inputPeopleCount.value > 10 && inputPeopleCount.value <= 20 ? 1500 : 0;
+     
+        let totalPrice = guidePricePerHour * inputSelect.value.split(' ')[0] * dayMultiplier + earlyTimeCost + lateTimeCost + peopleCountCost;
+    
+        if (inputTourGuideCheckBox.checked) {
+            totalPrice *= 1.3;
+        }
+    
+        if (inputCarCheckBox.checked) {
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                totalPrice *= 1.25;
+            }
+            else {
+                totalPrice *= 1.3;
+            } 
+        }
+    
+        totalPriceNoString = Math.ceil(totalPrice);
+        totalPrice = Math.ceil(totalPrice) + "р";
+        console.log(totalPrice);
+    
+        document.getElementById("totalPriceDisplay").textContent = totalPrice;
+    
+        updateCostModal.guidePricePerHour = guidePricePerHour;
+
+        // document.getElementById("btnSendOrder").addEventListener("click", async () => {
+        //     const sendingOrderData = {
+        //         guide_id: selectedTourGuideId,
+        //         route_id : selectedRoutId,
+        //         date : inputDate.value,
+        //         time: inputTime.value,
+        //         duration : inputSelect.value.split(' ')[0],
+        //         persons : inputPeopleCount.value,
+        //         price : totalPriceNoString,
+        //         optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
+        //         optionSecond : inputCarCheckBox.checked ? 1 : 0
+        //     };
+        //     await sendOrderData(sendingOrderData);
+        // });
+    };
+    
+    document.getElementById('orderingModal').addEventListener('input', () => {
+        updateCostModal()
+    });
+    
+    document.getElementById('orderingModal').addEventListener('change', () => {
+        updateCostModal();
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
