@@ -608,7 +608,7 @@ async function mainAccount () {
 
             document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
                 deleteOrder(paginatedData[key]["id"]);
-                const myModal = new bootstrap.Modal('deleteModal')
+                const myModal = document.querySelector('#deleteModal')
                 myModal.hide();
             });
 
