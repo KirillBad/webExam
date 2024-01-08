@@ -815,7 +815,7 @@ const toastTrigger = document.getElementById('btnSendOrder')
 const toastLiveExample = document.getElementById('liveToast')
 
 if (toastTrigger) {
-  const toastBootstrap = new bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
   toastTrigger.addEventListener('click', () => {
     toastBootstrap.show()
   })
