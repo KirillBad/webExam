@@ -42,16 +42,16 @@ async function getOrderData() {
     return content;
 };
 
-async function deleteOrder(orderId) {
+async function deleteOrder(orderId, deleteData) {
     const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
-    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${routId}`;
+    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     let response = await fetch(urlWithApiKey, {
         method : "DELETE", 
         headers : {
             'Content-Type': 'application/json'
         },
-        body: new URLSearchParams(orderId).toString()
+        body: new URLSearchParams(deleteData).toString()
     });
     let content = await response.json();
     return content;
@@ -609,7 +609,7 @@ async function mainAccount () {
 
             document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
                 deleteData = {id : paginatedData[key]["id"]};
-                deleteOrder(deleteData);
+                deleteOrder(paginatedData[key]["id"], deleteData);
             });
 
             thWithButton.appendChild(watchbutton);
