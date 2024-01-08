@@ -21,7 +21,14 @@ async function sendOrderData() {
     const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    let response = await fetch(urlWithApiKey);
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams(data).toString()
+    };
+    let response = await fetch(urlWithApiKey, requestOptions);
     let content = await response.json();
     return content;
 }
@@ -296,14 +303,26 @@ async function paginationMain() {
             } 
         }
     
+        totalPriceNoString = Math.ceil(totalPrice);
         totalPrice = Math.ceil(totalPrice) + "р";
     
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
-    
+
         document.getElementById("btnSendOrder").addEventListener("click", () => {
-    
+            const sendOrderData = {
+                guide_id: selectedTourGuideId,
+                route_id : selectedRoutId,
+                date : inputDate.value,
+                time: inputTime.value,
+                duration : inputSelect.value.split(' ')[0],
+                persons : inputPeopleCount.value,
+                price : totalPriceNoString,
+                optionFirst : inputTourGuideCheckBox.value,
+                optionSecond : inputCarCheckBox.value
+            };
+            console.log(sendOrderData):
         });
     };
 
