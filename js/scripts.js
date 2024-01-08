@@ -475,156 +475,154 @@ async function paginationMain() {
         updateCostModal();
     });
 
-    // document.getElementById("account").addEventListener("click", () => {
-    //     console.log("account");
-    //     mainAccount();
-    // })
-}
-
-async function mainAccount () {
-    let currentPage = 1;
-    let rows = 5;
-    const orderData = await getOrderData();
-    const routsData = await getRoutsData();
-
-    function displayList(arrData, routsArrData, rowsPerPage, page) {
-        const tableEl = document.getElementById('tableOrders');
-        tableEl.innerHTML = ''; 
-        page--;
-        const start = rowsPerPage * page;
-        const end = start + rowsPerPage;
-        const paginatedData = arrData.slice(start, end);
-        const propertiesOrder = ['route_id', 'date', 'price'];
-
-        for (key in paginatedData) {
-            for (routKey in routsArrData) {
-                if (routsArrData[routKey]["id"] = paginatedData[key]["route_id"]) {
-                    paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
+    async function mainAccount () {
+        let currentPage = 1;
+        let rows = 5;
+        const orderData = await getOrderData();
+        const routsData = await getRoutsData();
+    
+        function displayList(arrData, routsArrData, rowsPerPage, page) {
+            const tableEl = document.getElementById('tableOrders');
+            tableEl.innerHTML = ''; 
+            page--;
+            const start = rowsPerPage * page;
+            const end = start + rowsPerPage;
+            const paginatedData = arrData.slice(start, end);
+            const propertiesOrder = ['route_id', 'date', 'price'];
+    
+            for (key in paginatedData) {
+                for (routKey in routsArrData) {
+                    if (routsArrData[routKey]["id"] = paginatedData[key]["route_id"]) {
+                        paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
+                    }
                 }
-            }
-
-            const newRow = document.createElement('tr');
-            const th = document.createElement('th');
-            th.setAttribute('scope', 'col');
-            th.textContent = parseInt(key) + 1;
-            newRow.appendChild(th);
-
-            for (prop of propertiesOrder) {
+    
+                const newRow = document.createElement('tr');
                 const th = document.createElement('th');
                 th.setAttribute('scope', 'col');
-                th.textContent = `${paginatedData[key][prop]}`;
+                th.textContent = parseInt(key) + 1;
                 newRow.appendChild(th);
-            }
-
-            const thWithButton = document.createElement('th');
-            thWithButton.setAttribute('scope', 'col'); 
-            const watchbutton = document.createElement('button');
-            watchbutton.className = 'btn';
-            watchbutton.innerHTML += `<i class="bi bi-eye"></i>`;
-            const editbutton = document.createElement('button');
-            editbutton.className = 'btn';
-            editbutton.innerHTML += `<i class="bi bi-pencil-fill"></i>`;
-            const deletebutton = document.createElement('button');
-            deletebutton.className = 'btn';
-            deletebutton.innerHTML += `<i class="bi bi-trash"></i>`;
-
-            thWithButton.appendChild(watchbutton);
-            thWithButton.appendChild(editbutton);
-            thWithButton.appendChild(deletebutton);
-            newRow.appendChild(thWithButton);
-            tableEl.appendChild(newRow);
-        };
-    }
-
-    function displayPagination(arrData, rowsPerPage) {
-        const paginationEl = document.querySelector('.pagination');
-        paginationEl.innerHTML = '';
-        const pagesCount = Math.ceil(arrData.length / rowsPerPage);
-        const prevLi = document.createElement('li');
-        prevLi.classList.add('page-item');
-        const prevA = document.createElement('a');
-        prevA.classList.add('page-link');
-        prevA.href = '#';
-        prevA.setAttribute('aria-label', 'Previous');
-        const prevSpan = document.createElement('span');
-        prevSpan.setAttribute('aria-hidden', 'true');
-        prevSpan.textContent = '«';
-        prevA.appendChild(prevSpan);
-
-        prevA.addEventListener('click', () => {
-            event.preventDefault();
-            if (currentPage - 1 > 0){
-                currentPage -= 1;
-                const paginationItems = document.querySelectorAll('.pagination .page-item');
-                paginationItems.forEach(item => item.classList.remove('active'));
-                const prevPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
-                prevPaginationItem.classList.add('active');
-            }
-            displayList(arrData, routsData, rows, currentPage);
-        });
-
-        prevLi.appendChild(prevA);
-        paginationEl.appendChild(prevLi);
-        for (let i = 0; i < pagesCount; i++) {
-            const liEl = displayPaginationBtn(i + 1, arrData);
-            paginationEl.appendChild(liEl);
+    
+                for (prop of propertiesOrder) {
+                    const th = document.createElement('th');
+                    th.setAttribute('scope', 'col');
+                    th.textContent = `${paginatedData[key][prop]}`;
+                    newRow.appendChild(th);
+                }
+    
+                const thWithButton = document.createElement('th');
+                thWithButton.setAttribute('scope', 'col'); 
+                const watchbutton = document.createElement('button');
+                watchbutton.className = 'btn';
+                watchbutton.innerHTML += `<i class="bi bi-eye"></i>`;
+                const editbutton = document.createElement('button');
+                editbutton.className = 'btn';
+                editbutton.innerHTML += `<i class="bi bi-pencil-fill"></i>`;
+                const deletebutton = document.createElement('button');
+                deletebutton.className = 'btn';
+                deletebutton.innerHTML += `<i class="bi bi-trash"></i>`;
+    
+                thWithButton.appendChild(watchbutton);
+                thWithButton.appendChild(editbutton);
+                thWithButton.appendChild(deletebutton);
+                newRow.appendChild(thWithButton);
+                tableEl.appendChild(newRow);
+            };
         }
-
-        const nextLi = document.createElement('li');
-        nextLi.classList.add('page-item');
-        const nextA = document.createElement('a');
-        nextA.classList.add('page-link');
-        nextA.href = '#';
-        nextA.setAttribute('aria-label', 'Next');
-        const nextSpan = document.createElement('span');
-        nextSpan.setAttribute('aria-hidden', 'true');
-        nextSpan.textContent = '»';
-
-        nextA.addEventListener('click', () => {
-            event.preventDefault();
-            if (currentPage + 1 <= pagesCount){
-                currentPage += 1;
+    
+        function displayPagination(arrData, rowsPerPage) {
+            const paginationEl = document.querySelector('.pagination');
+            paginationEl.innerHTML = '';
+            const pagesCount = Math.ceil(arrData.length / rowsPerPage);
+            const prevLi = document.createElement('li');
+            prevLi.classList.add('page-item');
+            const prevA = document.createElement('a');
+            prevA.classList.add('page-link');
+            prevA.href = '#';
+            prevA.setAttribute('aria-label', 'Previous');
+            const prevSpan = document.createElement('span');
+            prevSpan.setAttribute('aria-hidden', 'true');
+            prevSpan.textContent = '«';
+            prevA.appendChild(prevSpan);
+    
+            prevA.addEventListener('click', () => {
+                event.preventDefault();
+                if (currentPage - 1 > 0){
+                    currentPage -= 1;
+                    const paginationItems = document.querySelectorAll('.pagination .page-item');
+                    paginationItems.forEach(item => item.classList.remove('active'));
+                    const prevPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
+                    prevPaginationItem.classList.add('active');
+                }
+                displayList(arrData, routsData, rows, currentPage);
+            });
+    
+            prevLi.appendChild(prevA);
+            paginationEl.appendChild(prevLi);
+            for (let i = 0; i < pagesCount; i++) {
+                const liEl = displayPaginationBtn(i + 1, arrData);
+                paginationEl.appendChild(liEl);
+            }
+    
+            const nextLi = document.createElement('li');
+            nextLi.classList.add('page-item');
+            const nextA = document.createElement('a');
+            nextA.classList.add('page-link');
+            nextA.href = '#';
+            nextA.setAttribute('aria-label', 'Next');
+            const nextSpan = document.createElement('span');
+            nextSpan.setAttribute('aria-hidden', 'true');
+            nextSpan.textContent = '»';
+    
+            nextA.addEventListener('click', () => {
+                event.preventDefault();
+                if (currentPage + 1 <= pagesCount){
+                    currentPage += 1;
+                    const paginationItems = document.querySelectorAll('.pagination .page-item');
+                    paginationItems.forEach(item => item.classList.remove('active'));
+                    const nextPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
+                    nextPaginationItem.classList.add('active');
+                }
+                displayList(arrData, routsData, rows, currentPage);
+            });
+    
+            nextA.appendChild(nextSpan);
+            nextLi.appendChild(nextA);
+            paginationEl.appendChild(nextLi);
+    
+            const buttons = document.querySelectorAll('.pagination .page-link');
+            buttons.forEach(button => {
+                if (button.textContent.trim() === '1') {
+                    button.parentElement.classList.add('active');
+                }
+            });
+        }
+    
+        function displayPaginationBtn(page, data) {
+            const liEl = document.createElement('li');
+            liEl.classList.add('page-item');
+            const aEl = document.createElement('a');
+            aEl.classList.add('page-link');
+            aEl.textContent = page;
+            aEl.href = '#';
+            liEl.appendChild(aEl);
+            liEl.addEventListener('click', () => {
+                event.preventDefault();
                 const paginationItems = document.querySelectorAll('.pagination .page-item');
                 paginationItems.forEach(item => item.classList.remove('active'));
-                const nextPaginationItem = document.querySelector(`.pagination .page-item:nth-child(${currentPage + 1})`);
-                nextPaginationItem.classList.add('active');
-            }
-            displayList(arrData, routsData, rows, currentPage);
-        });
-
-        nextA.appendChild(nextSpan);
-        nextLi.appendChild(nextA);
-        paginationEl.appendChild(nextLi);
-
-        const buttons = document.querySelectorAll('.pagination .page-link');
-        buttons.forEach(button => {
-            if (button.textContent.trim() === '1') {
-                button.parentElement.classList.add('active');
-            }
-        });
+                currentPage = page;
+                liEl.classList.add('active');
+                displayList(data, routsData, rows, currentPage);
+            });
+            return liEl;
+        }
+        displayList(orderData, routsData, rows, currentPage);
+        displayPagination(orderData, rows);
     }
 
-    function displayPaginationBtn(page, data) {
-        const liEl = document.createElement('li');
-        liEl.classList.add('page-item');
-        const aEl = document.createElement('a');
-        aEl.classList.add('page-link');
-        aEl.textContent = page;
-        aEl.href = '#';
-        liEl.appendChild(aEl);
-        liEl.addEventListener('click', () => {
-            event.preventDefault();
-            const paginationItems = document.querySelectorAll('.pagination .page-item');
-            paginationItems.forEach(item => item.classList.remove('active'));
-            currentPage = page;
-            liEl.classList.add('active');
-            displayList(data, routsData, rows, currentPage);
-        });
-        return liEl;
-    }
-    displayList(orderData, routsData, rows, currentPage);
-    displayPagination(orderData, rows);
+    mainAccount();
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     let inputDate = document.getElementById('routDate');
@@ -641,4 +639,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 paginationMain()
-mainAccount()
