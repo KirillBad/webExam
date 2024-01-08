@@ -322,7 +322,7 @@ async function paginationMain() {
                 optionFirst : inputTourGuideCheckBox.value,
                 optionSecond : inputCarCheckBox.value
             };
-            console.log(sendOrderData):
+            console.log(sendOrderData);
         });
     };
 
