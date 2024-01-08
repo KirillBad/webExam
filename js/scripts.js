@@ -89,6 +89,7 @@ async function paginationMain() {
             tableEl.appendChild(newRow);
         };
     }
+
     function displayPagination(arrData, rowsPerPage) {
         const paginationEl = document.querySelector('.pagination');
         paginationEl.innerHTML = '';
@@ -259,6 +260,8 @@ async function paginationMain() {
         let dayMultiplier = 1;
     
         let date = new Date(inputDate.value);
+        console.log(inputDate.value);
+        console.log(date);
         const dayOfWeek = date.getDay();
         if (dayOfWeek === 0 || dayOfWeek === 6) {
             dayMultiplier = 1.5;
