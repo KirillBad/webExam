@@ -607,7 +607,7 @@ async function mainAccount () {
             deletebutton.setAttribute('data-bs-toggle', 'modal');
             deletebutton.setAttribute('data-bs-target', '#deleteModal');
 
-            document.getElementById(modalFooterBtn).addEventListener("click", async () => {
+            document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
                 deleteData = {id : paginatedData[key]["id"]};
                 deleteOrder(deleteData);
             });
