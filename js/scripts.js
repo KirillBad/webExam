@@ -475,6 +475,11 @@ async function paginationMain() {
     document.getElementById('orderingModal').addEventListener('change', () => {
         updateCostModal();
     });
+
+    document.getElementById("account").addEventListener("click", () => {
+        console.log("account");
+        mainAccount();
+    })
 }
 
 async function mainAccount () {
@@ -638,11 +643,6 @@ document.addEventListener('DOMContentLoaded', function () {
     inputDate.setAttribute('max', yyyy + '-12-31');
     inputDate.value = currentDate;
 });
-
-document.getElementById("account").addEventListener("click", () => {
-    console.log("account");
-    mainAccount();
-})
 
 paginationMain()
 
