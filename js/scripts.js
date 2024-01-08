@@ -67,11 +67,12 @@ function truncateStrings(data, maxLength, keys) {
     return data;
 };
 
+const routsData = await getRoutsData();
+
 async function paginationMain() {
     let selectedRoutId = null;
     let currentPage = 1;
     let rows = 5;
-    const routsData = await getRoutsData();
     const trimingOrder = ['description', 'mainObject'];
     const trimedData = truncateStrings(routsData, 250, trimingOrder)
     function displayList(arrData, rowsPerPage, page) {
@@ -498,7 +499,6 @@ async function mainAccount () {
     let currentPage = 1;
     let rows = 5;
     const orderData = await getOrderData();
-    const routsData = await getRoutsData();
 
     // const orderData = testOrderData;
     // const routsData = testRoutsData;
@@ -512,7 +512,6 @@ async function mainAccount () {
 
     for (key in orderData) {
         const routGuideData = await getRoutGuidesData(orderData[key]["route_id"]);
-        // const routGuideData = testGuideData;
         for (guide in routGuideData) {
             if (routGuideData[guide]['id'] === orderData[key]['guide_id']) {
                 orderData[key]["pricePerHour"] = routGuideData[guide]['pricePerHour'];
