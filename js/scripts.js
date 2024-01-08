@@ -510,15 +510,19 @@ async function mainAccount () {
     let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
     let inputCarCheckBox = document.getElementById('carCheckBox');
 
-    for (key in orderData) {
-        const routGuideData = await getRoutGuidesData(orderData[key]["route_id"]);
-        for (guide in routGuideData) {
-            if (routGuideData[guide]['id'] === orderData[key]['guide_id']) {
-                orderData[key]["pricePerHour"] = routGuideData[guide]['pricePerHour'];
-                orderData[key]["guide_name"] = routGuideData[guide]['name'];
-            }
+    const getRoutGuidesPromises = orderData.map(async (order) => {
+        const routGuideData = await getRoutGuidesData(order["route_id"]);
+        const guide = routGuideData.find(g => g['id'] === order['guide_id']);
+
+        if (guide) {
+            order["pricePerHour"] = guide['pricePerHour'];
+            order["guide_name"] = guide['name'];
         }
-    }
+
+        return order;
+    });
+
+    const updatedOrderData = await Promise.all(getRoutGuidesPromises);
 
     function displayList(arrData, routsArrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
@@ -704,8 +708,8 @@ async function mainAccount () {
         });
         return liEl;
     }
-    displayList(orderData, routsData, rows, currentPage);
-    displayPagination(orderData, rows);
+    displayList(updatedOrderData, routsData, rows, currentPage);
+    displayPagination(updatedOrderData, rows);
 
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
