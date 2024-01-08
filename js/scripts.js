@@ -30,6 +30,7 @@ async function sendOrderData() {
     };
     let response = await fetch(urlWithApiKey, requestOptions);
     let content = await response.json();
+    console.log(content);
     return content;
 }
 
@@ -401,8 +402,6 @@ async function paginationMain() {
         let dayMultiplier = 1;
     
         let date = new Date(inputDate.value);
-        console.log(inputDate.value);
-        console.log(date);
         const dayOfWeek = date.getDay();
         if (dayOfWeek === 0 || dayOfWeek === 6) {
             dayMultiplier = 1.5;
@@ -444,7 +443,7 @@ async function paginationMain() {
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
 
-        document.getElementById("btnSendOrder").addEventListener("click", () => {
+        document.getElementById("btnSendOrder").addEventListener("click", async () => {
             const sendOrderData = {
                 guide_id: selectedTourGuideId,
                 route_id : selectedRoutId,
@@ -456,7 +455,7 @@ async function paginationMain() {
                 optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
                 optionSecond : inputCarCheckBox.checked ? 1 : 0
             };
-            console.log(sendOrderData);
+            await sendOrderData(sendOrderData);
         });
     };
     
