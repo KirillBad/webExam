@@ -608,8 +608,6 @@ async function mainAccount () {
 
             document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
                 deleteOrder(paginatedData[key]["id"]);
-                const myModal = document.querySelector('#deleteModal')
-                myModal.hide();
             });
 
             thWithButton.appendChild(watchbutton);
