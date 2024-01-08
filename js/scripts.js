@@ -477,25 +477,11 @@ async function paginationMain() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    let inputDate = document.getElementById('routDate');
-
-    let today = new Date();
-    let yyyy = today.getFullYear();
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let dd = String(today.getDate()).padStart(2, '0');
-    let currentDate = yyyy + '-' + mm + '-' + dd;
-
-    inputDate.setAttribute('min', currentDate);
-    inputDate.setAttribute('max', yyyy + '-12-31');
-    inputDate.value = currentDate;
-});
-
 async function mainAccount () {
     let currentPage = 1;
     let rows = 5;
-    orderData = await getOrderData();
-    routsData = await getRoutsData();
+    const orderData = await getOrderData();
+    const routsData = await getRoutsData();
 
     function displayList(arrData, routsArrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
@@ -635,10 +621,28 @@ async function mainAccount () {
         });
         return liEl;
     }
-    displayList(orderData, rows, currentPage);
+    displayList(orderData, routsData, rows, currentPage);
     displayPagination(orderData, rows);
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    let inputDate = document.getElementById('routDate');
+
+    let today = new Date();
+    let yyyy = today.getFullYear();
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let dd = String(today.getDate()).padStart(2, '0');
+    let currentDate = yyyy + '-' + mm + '-' + dd;
+
+    inputDate.setAttribute('min', currentDate);
+    inputDate.setAttribute('max', yyyy + '-12-31');
+    inputDate.value = currentDate;
+});
+
+document.getElementById("account").addEventListener("click", () => {
+    console.log("account");
+    mainAccount();
+})
+
 paginationMain()
-mainAccount()
 
