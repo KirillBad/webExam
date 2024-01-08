@@ -498,6 +498,7 @@ async function mainAccount () {
 
     for (key in orderData) {
         const routGuideData = await getRoutGuidesData(orderData[key]["guide_id"]);
+        console.log(routGuideData);
         orderData[key]["pricePerHour"] = routGuideData["pricePerHour"];
     }
 
@@ -516,8 +517,6 @@ async function mainAccount () {
                     paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
                 }
             }
-
-            console.log(paginatedData[key]["pricePerHour"]);
 
             const newRow = document.createElement('tr');
             const th = document.createElement('th');
