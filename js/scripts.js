@@ -496,7 +496,12 @@ async function mainAccount () {
     let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
     let inputCarCheckBox = document.getElementById('carCheckBox');
 
-    async function displayList(arrData, routsArrData, rowsPerPage, page) {
+    for (key in orderData) {
+        const routGuideData = await getRoutGuidesData(orderData[key]["guide_id"]);
+        orderData[key]["pricePerHour"] = routGuideData["pricePerHour"];
+    }
+
+    function displayList(arrData, routsArrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
         tableEl.innerHTML = ''; 
         page--;
@@ -512,9 +517,6 @@ async function mainAccount () {
                 }
             }
 
-            const routGuideData = await getRoutGuidesData(paginatedData[key]["guide_id"]);
-            console.log(routGuideData);
-            paginatedData[key]["pricePerHour"] = routGuideData["pricePerHour"];
             console.log(paginatedData[key]["pricePerHour"]);
 
             const newRow = document.createElement('tr');
