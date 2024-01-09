@@ -480,9 +480,12 @@ async function paginationMain() {
         }
     
         const currentTime = new Date(`2000-01-01T${inputTime.value}`);
-        console.log(currentTime);
         const hour = currentTime.getHours();
-        console.log(hour);
+        const minutes = currentTime.getMinutes();
+        if ((hour < 9 || hour > 23) && (minutes !== 0 && minutes !== 30)) {
+
+        };
+
         const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
         const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
     
@@ -526,7 +529,19 @@ async function paginationMain() {
             optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
             optionSecond : inputCarCheckBox.checked ? 1 : 0
         };
-        await sendOrderData(sendingOrderData);
+
+        const toastLiveExampleTime = document.getElementById('orderTime')
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleTime)
+
+        const currentTime = new Date(`2000-01-01T${sendingOrderData.time}`);
+        const hour = currentTime.getHours();
+        const minutes = currentTime.getMinutes();
+        if ((hour < 9 || hour > 23) && (minutes !== 0 && minutes !== 30)) {
+            toastBootstrap.show()
+        }
+        else {
+            await sendOrderData(sendingOrderData);
+        }
     });
     
     document.getElementById('orderingModal').addEventListener('input', () => {
