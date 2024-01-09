@@ -531,21 +531,21 @@ async function paginationMain() {
         };
 
         const toastLiveExampleTime = document.getElementById('orderTime')
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleTime)
+        const toastBootstrapTime = bootstrap.Toast.getOrCreateInstance(toastLiveExampleTime)
 
         const currentTime = new Date(`2000-01-01T${sendingOrderData.time}`);
         const hour = currentTime.getHours();
         console.log(hour);
         const minutes = currentTime.getMinutes();
         console.log(minutes);
-        if ((hour < 9 || hour > 23) || (minutes !== 0 && minutes !== 30)) {
-            toastBootstrap.show()
+        if ((hour < 9 || hour > 23) || (minutes !== 0 || minutes !== 30)) {
+            toastBootstrapTime.show()
         }
         else {
             await sendOrderData(sendingOrderData);
             const toastLiveExampleConfirm = document.getElementById('orderConfirm');
-            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
-            toastBootstrap.show();
+            const toastBootstrapSending = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
+            toastBootstrapSending.show();
         };
     });
     
@@ -684,7 +684,7 @@ async function mainAccount () {
                         const currentTime = new Date(`2000-01-01T${modalData.time}`);
                         const hour = currentTime.getHours();
                         const minutes = currentTime.getMinutes();
-                        if ((hour < 9 || hour > 23) || (minutes !== 0 && minutes !== 30)) {
+                        if ((hour < 9 || hour > 23) || (minutes !== 0 || minutes !== 30)) {
                             toastBootstrap.show()
                         }
                         else {
