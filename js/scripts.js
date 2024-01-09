@@ -536,7 +536,7 @@ async function paginationMain() {
         const currentTime = new Date(`2000-01-01T${sendingOrderData.time}`);
         const hour = currentTime.getHours();
         const minutes = currentTime.getMinutes();
-        if ((hour < 9 || hour > 23) && (minutes !== 0 && minutes !== 30)) {
+        if ((hour < 9 || hour > 23) || (minutes !== 0 && minutes !== 30)) {
             toastBootstrap.show()
         }
         else {
@@ -679,7 +679,7 @@ async function mainAccount () {
                         const currentTime = new Date(`2000-01-01T${modalData.time}`);
                         const hour = currentTime.getHours();
                         const minutes = currentTime.getMinutes();
-                        if ((hour < 9 || hour > 23) && (minutes !== 0 && minutes !== 30)) {
+                        if ((hour < 9 || hour > 23) || (minutes !== 0 && minutes !== 30)) {
                             toastBootstrap.show()
                         }
                         else {
