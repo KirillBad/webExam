@@ -523,6 +523,7 @@ async function mainAccount () {
     let inputPeopleCount = document.getElementById('peopleCount');
     let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
     let inputCarCheckBox = document.getElementById('carCheckBox');
+    let idForDelete;
 
     function displayList(arrData, routsArrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
@@ -610,7 +611,7 @@ async function mainAccount () {
             deletebutton.setAttribute('data-bs-target', '#deleteModal');
 
             document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
-                const idForDelete = paginatedData[key]["id"];
+                idForDelete = paginatedData[key]["id"];
                 await deleteOrder(idForDelete);
                 mainAccount();
             });
