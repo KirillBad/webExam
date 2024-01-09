@@ -535,13 +535,15 @@ async function paginationMain() {
 
         const currentTime = new Date(`2000-01-01T${sendingOrderData.time}`);
         const hour = currentTime.getHours();
+        console.log(hour);
         const minutes = currentTime.getMinutes();
+        console.log(minutes);
         if ((hour < 9 || hour > 23) || (minutes !== 0 && minutes !== 30)) {
             toastBootstrap.show()
         }
         else {
             await sendOrderData(sendingOrderData);
-        }
+        };
     });
     
     document.getElementById('orderingModal').addEventListener('input', () => {
@@ -685,7 +687,7 @@ async function mainAccount () {
                         else {
                             await updateOrder(idForSelect, modalData);
                             mainAccount();
-                        }
+                        };
                     });
                 };
             })(key));
