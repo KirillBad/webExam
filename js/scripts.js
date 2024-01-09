@@ -543,6 +543,9 @@ async function paginationMain() {
         }
         else {
             await sendOrderData(sendingOrderData);
+            const toastLiveExampleConfirm = document.getElementById('orderConfirm');
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
+            toastBootstrap.show();
         };
     });
     
@@ -686,6 +689,9 @@ async function mainAccount () {
                         }
                         else {
                             await updateOrder(idForSelect, modalData);
+                            const toastLiveExampleConfirm = document.getElementById('orderConfirm');
+                            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
+                            toastBootstrap.show();
                             mainAccount();
                         };
                     });
@@ -905,15 +911,6 @@ document.addEventListener('DOMContentLoaded', function () {
     inputDate.setAttribute('max', yyyy + '-12-31');
     inputDate.value = currentDate;
 });
-
-const toastTriggerConfirm = document.getElementById('btnSendOrder');
-const toastLiveExampleConfirm = document.getElementById('orderConfirm');
-if (toastTriggerConfirm) {;
-  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm)
-  toastTriggerConfirm.addEventListener('click', () => {
-    toastBootstrap.show()
-  })
-};
 
 const toastTriggerDelete = document.getElementById('deleteConfirmBtn')
 const toastLiveExampleDelete = document.getElementById('deleteOrder')
