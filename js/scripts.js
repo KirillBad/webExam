@@ -538,7 +538,7 @@ async function paginationMain() {
         console.log(hour);
         const minutes = currentTime.getMinutes();
         console.log(minutes);
-        if ((hour >= 9 || hour <= 23) || (minutes == 0 || minutes == 30)) {
+        if ((hour >= 9 || hour <= 23) && (minutes == 0 || minutes == 30)) {
             await sendOrderData(sendingOrderData);
             const toastLiveExampleConfirm = document.getElementById('orderConfirm');
             const toastBootstrapConfirm = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
