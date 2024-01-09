@@ -539,13 +539,15 @@ async function paginationMain() {
         const minutes = currentTime.getMinutes();
         console.log(minutes);
         if ((hour < 9 || hour > 23) || (minutes !== 0 || minutes !== 30)) {
-            toastBootstrapTime.show()
+            toastBootstrapTime.show();
+            console.log('1');
         }
         else {
             await sendOrderData(sendingOrderData);
             const toastLiveExampleConfirm = document.getElementById('orderConfirm');
-            const toastBootstrapSending = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
-            toastBootstrapSending.show();
+            const toastBootstrapConfirm = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
+            toastBootstrapConfirm.show();
+            console.log('2');
         };
     });
     
