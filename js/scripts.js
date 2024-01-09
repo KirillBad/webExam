@@ -674,8 +674,18 @@ async function mainAccount () {
                     document.getElementById("editOrderBtn").addEventListener("click", async () => {
                         let idForSelect = paginatedData[currentKey]["id"];
                         console.log(modalData);
-                        await updateOrder(idForSelect, modalData);
-                        mainAccount();
+                        const toastLiveExampleTime = document.getElementById('orderTime')
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleTime)
+                        const currentTime = new Date(`2000-01-01T${modalData.time}`);
+                        const hour = currentTime.getHours();
+                        const minutes = currentTime.getMinutes();
+                        if ((hour < 9 || hour > 23) && (minutes !== 0 && minutes !== 30)) {
+                            toastBootstrap.show()
+                        }
+                        else {
+                            await updateOrder(idForSelect, modalData);
+                            mainAccount();
+                        }
                     });
                 };
             })(key));
