@@ -526,19 +526,19 @@ async function mainAccount () {
         const paginatedData = arrData.slice(start, end);
         const propertiesOrder = ['route_id', 'date', 'price'];
 
-        let inputDate = document.getElementById('routDate');
-        let inputTime = document.getElementById('routTime');
-        let inputSelect = document.getElementById('selectHours');
-        let inputPeopleCount = document.getElementById('peopleCount');
-        let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
-        let inputCarCheckBox = document.getElementById('carCheckBox');
-
         for (key in paginatedData) {
             for (routKey in routsArrData) {
                 if (routsArrData[routKey]["id"] === paginatedData[key]["route_id"]) {
                     paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
                 };
             };
+
+            let inputDate = document.getElementById('routDate');
+            let inputTime = document.getElementById('routTime');
+            let inputSelect = document.getElementById('selectHours');
+            let inputPeopleCount = document.getElementById('peopleCount');
+            let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+            let inputCarCheckBox = document.getElementById('carCheckBox');
 
             const newRow = document.createElement('tr');
             const th = document.createElement('th');
