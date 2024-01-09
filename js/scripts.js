@@ -480,7 +480,9 @@ async function paginationMain() {
         }
     
         const currentTime = new Date(`2000-01-01T${inputTime.value}`);
+        console.log(currentTime);
         const hour = currentTime.getHours();
+        console.log(hour);
         const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
         const lateTimeCost = (hour >= 20 && hour <= 23) ? 1000 : 0;
     
