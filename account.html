@@ -107,15 +107,15 @@
           <div class="row justify-content-center">
             <div class="col-4">
               <p class="h6 text-center">Дата</p>
-              <input class="form-control" required type="date" id="routDate">
+              <input class="form-control" required type="date" id="date">
             </div>
             <div class="col-3">
               <p class="h6 text-center">Время</p>
-              <input class="form-control" type="time" min="09:00" max="23:00" step="1800" id="routTime">
+              <input class="form-control" type="time" min="09:00" max="23:00" step="1800" id="time">
             </div>
             <div class="col-3">
               <p class="h6 text-center">Длительность</p>
-              <select class="form-select" aria-label="Default select example" id="selectHours">
+              <select class="form-select" aria-label="Default select example" id="duration">
                 <option value="1">1 час</option>
                 <option value="2">2 часа</option>
                 <option value="3">3 часа</option>
@@ -127,7 +127,7 @@
               <p>Количество человек:</p>
             </div>
             <div class="col-4 h6">
-              <input type="number" class="form-control" min="1" max="20" value="1" id="peopleCount">
+              <input type="number" class="form-control" min="1" max="20" value="1" id="persons">
             </div>
           </div>
           <div class="row justify-content-center text-center">
@@ -138,7 +138,7 @@
           <div class="row justify-content-center">
             <div class="col-5 text-center">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="tourGuideCheckBox">
+                <input class="form-check-input" type="checkbox" value="" id="optionFirst">
                 <label class="form-check-label" for="flexCheckDefault">
                   Быстрый выезд гида
                 </label>
@@ -148,7 +148,7 @@
             </div>
             <div class="col-5 text-center">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="carCheckBox">
+                <input class="form-check-input" type="checkbox" value="" id="optionSecond">
                 <label class="form-check-label" for="flexCheckDefault">
                   VIP трансфер
                 </label>
