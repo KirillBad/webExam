@@ -818,20 +818,24 @@ async function mainAccount () {
     };
     
     document.getElementById('orderingModal').addEventListener('input', (event) => {
-        if (target.event.type === 'checkbox') {
-            modalData[target.event.id] = target.event.checked;
+        const target = event.target;
+
+        if (target.type === 'checkbox') {
+            modalData[target.id] = target.checked;
         } else {
-            modalData[target.event.id] = target.event.value;
+            modalData[target.id] = target.value;
         }
         console.log(modalData);
         updateCostModal()
     });
     
     document.getElementById('orderingModal').addEventListener('change', (event) => {
-        if (target.event.type === 'checkbox') {
-            modalData[target.event.id] = target.event.checked;
+        const target = event.target;
+
+        if (target.type === 'checkbox') {
+            modalData[target.id] = target.checked;
         } else {
-            modalData[target.event.id] = target.event.value;
+            modalData[target.id] = target.value;
         }
         console.log(modalData);
         updateCostModal();
