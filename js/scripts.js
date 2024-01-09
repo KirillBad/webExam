@@ -752,8 +752,8 @@ async function mainAccount () {
         routTime : '',
         selectHours : '',
         peopleCount : 0,
-        tourGuideCheckBox : Boolean,
-        carCheckBox : Boolean
+        tourGuideCheckBox : 0,
+        carCheckBox : 0
     };
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
