@@ -747,7 +747,14 @@ async function mainAccount () {
     displayList(updatedOrderData, routsData, rows, currentPage);
     displayPagination(updatedOrderData, rows);
 
-    let modalData;
+    const modalData = {
+        routDate : '',
+        routTime : '',
+        selectHours : '',
+        peopleCount : 0,
+        tourGuideCheckBox : Boolean,
+        carCheckBox : Boolean
+    };
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
             "2024-02-23",
