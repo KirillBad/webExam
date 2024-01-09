@@ -1,5 +1,5 @@
+const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
 async function getRoutsData() {
-    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes';
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     let response = await fetch(urlWithApiKey);
@@ -8,7 +8,6 @@ async function getRoutsData() {
 };
 
 async function getRoutGuidesData(routId) {
-    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes/${routId}/guides`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     let response = await fetch(urlWithApiKey);
@@ -17,7 +16,6 @@ async function getRoutGuidesData(routId) {
 };
 
 async function sendOrderData(data) {
-    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     const requestOptions = {
@@ -29,12 +27,10 @@ async function sendOrderData(data) {
     };
     let response = await fetch(urlWithApiKey, requestOptions);
     let content = await response.json();
-    console.log(content);
     return content;
 };
 
 async function getOrderData() {
-    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     let response = await fetch(urlWithApiKey);
@@ -43,7 +39,6 @@ async function getOrderData() {
 };
 
 async function deleteOrder(orderId) {
-    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     let response = await fetch(urlWithApiKey, {
@@ -57,7 +52,6 @@ async function deleteOrder(orderId) {
 }
 
 async function updateOrder(orderId, data) {
-    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
     const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
     const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
     const requestOptions = {
@@ -535,9 +529,7 @@ async function paginationMain() {
 
         const currentTime = new Date(`2000-01-01T${sendingOrderData.time}`);
         const hour = currentTime.getHours();
-        console.log(hour);
         const minutes = currentTime.getMinutes();
-        console.log(minutes);
         if (((hour >= 9 && hour < 23) && (minutes === 0 || minutes === 30)) || (hour === 23 && minutes === 0)) {
             await sendOrderData(sendingOrderData);
             const toastLiveExampleConfirm = document.getElementById('orderConfirm');
@@ -660,7 +652,6 @@ async function mainAccount () {
                 if (inputDate.value !== paginatedData[key]["date"]) {
                     updatedData.date = inputDate.value;
                 };
-                console.log(updatedData);
                 inputTime.value = paginatedData[key]["time"];
                 inputTime.disabled = false;
                 inputSelect.value = paginatedData[key]["duration"];
@@ -678,21 +669,20 @@ async function mainAccount () {
                 return function() {
                     document.getElementById("editOrderBtn").addEventListener("click", async () => {
                         let idForSelect = paginatedData[currentKey]["id"];
-                        console.log(modalData);
                         const toastLiveExampleTime = document.getElementById('orderTime')
                         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleTime)
                         const currentTime = new Date(`2000-01-01T${modalData.time}`);
                         const hour = currentTime.getHours();
                         const minutes = currentTime.getMinutes();
-                        if ((hour < 9 || hour > 23) || (minutes !== 0 || minutes !== 30)) {
-                            toastBootstrap.show()
-                        }
-                        else {
+                        if (((hour >= 9 && hour < 23) && (minutes === 0 || minutes === 30)) || (hour === 23 && minutes === 0)) {
                             await updateOrder(idForSelect, modalData);
                             const toastLiveExampleConfirm = document.getElementById('orderConfirm');
                             const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
                             toastBootstrap.show();
                             mainAccount();
+                        }
+                        else {                    
+                            toastBootstrap.show();
                         };
                     });
                 };
