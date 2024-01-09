@@ -747,6 +747,7 @@ async function mainAccount () {
     displayList(updatedOrderData, routsData, rows, currentPage);
     displayPagination(updatedOrderData, rows);
 
+    let modalData;
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
             "2024-02-23",
@@ -774,7 +775,7 @@ async function mainAccount () {
         if (publicHolidaysList.includes(formattedDate)) {
             dayMultiplier = 1.5;
         }
-    
+
         const currentTime = new Date(`2000-01-01T${inputTime.value}`);
         const hour = currentTime.getHours();
         const earlyTimeCost = (hour >= 9 && hour <= 12) ? 400 : 0;
@@ -802,17 +803,22 @@ async function mainAccount () {
     
         totalPriceNoString = Math.ceil(totalPrice);
         totalPrice = Math.ceil(totalPrice) + "р";
+ 
     
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
     };
     
-    document.getElementById('orderingModal').addEventListener('input', () => {
+    document.getElementById('orderingModal').addEventListener('input', (event) => {
+        modalData[event.target.id] = event.target.value;
+        console.log(modalData)l
         updateCostModal()
     });
     
-    document.getElementById('orderingModal').addEventListener('change', () => {
+    document.getElementById('orderingModal').addEventListener('change', (event) => {
+        modalData[event.target.id] = event.target.value;
+        console.log(modalData);
         updateCostModal();
     });
 }
