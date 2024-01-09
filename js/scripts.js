@@ -533,7 +533,7 @@ async function mainAccount () {
 
     const updatedOrderData = await Promise.all(getRoutGuidesPromises);
 
-    let inputDate = document.getElementById('date ');
+    let inputDate = document.getElementById('date');
     let inputTime = document.getElementById('time');
     let inputSelect = document.getElementById('selectHours');
     let inputPeopleCount = document.getElementById('peopleCount');
