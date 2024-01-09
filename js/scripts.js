@@ -540,6 +540,8 @@ async function mainAccount () {
     let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
     let inputCarCheckBox = document.getElementById('carCheckBox');
 
+    let modalData = {};
+
     function displayList(arrData, routsArrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
         tableEl.innerHTML = ''; 
@@ -747,14 +749,6 @@ async function mainAccount () {
     displayList(updatedOrderData, routsData, rows, currentPage);
     displayPagination(updatedOrderData, rows);
 
-    const modalData = {
-        routDate : '',
-        routTime : '',
-        selectHours : '',
-        peopleCount : '',
-        tourGuideCheckBox : Boolean,
-        carCheckBox : Boolean
-    };
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
             "2024-02-23",
