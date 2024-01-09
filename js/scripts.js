@@ -802,12 +802,20 @@ document.addEventListener('DOMContentLoaded', function () {
     inputDate.value = currentDate;
 });
 
-const toastTrigger = document.getElementById('btnSendOrder')
-const toastLiveExample = document.getElementById('liveToast')
+const toastTriggerConfirm = document.getElementById('btnSendOrder');
+const toastLiveExampleConfirm = document.getElementById('orderConfirm');
+if (toastTriggerConfirm) {;
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm)
+  toastTriggerConfirm.addEventListener('click', () => {
+    toastBootstrap.show()
+  })
+};
 
-if (toastTrigger) {
-  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-  toastTrigger.addEventListener('click', () => {
+const toastTriggerDelete = document.getElementById('deleteConfirmBtn')
+const toastLiveExampleDelete = document.getElementById('deleteOrder')
+if (toastTriggerDelete) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleDelete)
+  toastTriggerDelete.addEventListener('click', () => {
     toastBootstrap.show()
   })
 }
