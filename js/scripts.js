@@ -810,8 +810,6 @@ async function mainAccount () {
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
-
-        return totalPriceNoString
     };
     
     document.getElementById('orderingModal').addEventListener('input', (event) => {
@@ -822,17 +820,18 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        modalData["price"] = updateCostModal();
+        updateCostModal()
     });
     
     document.getElementById('orderingModal').addEventListener('change', (event) => {
         const target = event.target;
+
         if (target.type === 'checkbox') {
             modalData[target.id] = target.checked ? 1 : 0;
         } else {
             modalData[target.id] = target.value;
         }
-        modalData["price"] = updateCostModal();
+        updateCostModal();
     });
 }
 
