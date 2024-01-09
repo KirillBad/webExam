@@ -538,16 +538,14 @@ async function paginationMain() {
         console.log(hour);
         const minutes = currentTime.getMinutes();
         console.log(minutes);
-        if ((hour < 9 || hour > 23) || (minutes !== 0 || minutes !== 30)) {
-            toastBootstrapTime.show();
-            console.log('1');
-        }
-        else {
+        if ((hour > 9 || hour < 23) || (minutes == 0 || minutes == 30)) {
             await sendOrderData(sendingOrderData);
             const toastLiveExampleConfirm = document.getElementById('orderConfirm');
             const toastBootstrapConfirm = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
             toastBootstrapConfirm.show();
-            console.log('2');
+        }
+        else {
+            toastBootstrapTime.show();
         };
     });
     
