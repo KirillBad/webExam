@@ -656,6 +656,7 @@ async function mainAccount () {
             thWithButton.appendChild(editbutton);
             thWithButton.appendChild(deletebutton);
             newRow.appendChild(thWithButton);
+            document.getElementById("priceCell").textContent = "Итоговая стоимость"
             tableEl.appendChild(newRow);
         };
     }
@@ -805,11 +806,12 @@ async function mainAccount () {
     
         totalPriceNoString = Math.ceil(totalPrice);
         totalPrice = Math.ceil(totalPrice) + "р";
- 
-    
+
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
+
+        return totalPriceNoString
     };
     
     document.getElementById('orderingModal').addEventListener('input', (event) => {
@@ -820,18 +822,17 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        updateCostModal()
+        modalData["price"] = updateCostModal();
     });
     
     document.getElementById('orderingModal').addEventListener('change', (event) => {
         const target = event.target;
-
         if (target.type === 'checkbox') {
             modalData[target.id] = target.checked ? 1 : 0;
         } else {
             modalData[target.id] = target.value;
         }
-        updateCostModal();
+        modalData["price"] = updateCostModal();
     });
 }
 
