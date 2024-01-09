@@ -421,8 +421,8 @@ async function paginationMain() {
 
     let inputDate = document.getElementById('routDate');
     let inputTime = document.getElementById('routTime');
-    let inputSelect = document.getElementById('duration');
-    let inputPeopleCount = document.getElementById('persons');
+    let inputSelect = document.getElementById('selectHours');
+    let inputPeopleCount = document.getElementById('peopleCount');
     let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
     let inputCarCheckBox = document.getElementById('carCheckBox');
     function updateCostModal(priceHour) {
@@ -535,8 +535,8 @@ async function mainAccount () {
 
     let inputDate = document.getElementById('date');
     let inputTime = document.getElementById('time');
-    let inputSelect = document.getElementById('selectHours');
-    let inputPeopleCount = document.getElementById('peopleCount');
+    let inputSelect = document.getElementById('duration');
+    let inputPeopleCount = document.getElementById('persons');
     let inputTourGuideCheckBox = document.getElementById('optionFirst');
     let inputCarCheckBox = document.getElementById('optionSecond');
 
