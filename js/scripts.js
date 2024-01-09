@@ -656,7 +656,6 @@ async function mainAccount () {
             thWithButton.appendChild(editbutton);
             thWithButton.appendChild(deletebutton);
             newRow.appendChild(thWithButton);
-            document.getElementById("priceCell").textContent = "Итоговая стоимость"
             tableEl.appendChild(newRow);
         };
     }
@@ -822,7 +821,7 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        modalData['price'] = updateCostModal()
+        modalData["price"] = updateCostModal()
     });
     
     document.getElementById('orderingModal').addEventListener('change', (event) => {
@@ -833,7 +832,7 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        modalData['price'] = updateCostModal()
+        modalData["price"] = updateCostModal()
     });
 }
 
