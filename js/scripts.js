@@ -630,6 +630,7 @@ async function mainAccount () {
                 return function() {
                     document.getElementById("editOrderBtn").addEventListener("click", async () => {
                         let idForSelect = paginatedData[currentKey]["id"];
+                        console.log(modalData);
                         await updateOrder(idForSelect, modalData);
                         mainAccount();
                     });
@@ -819,7 +820,6 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        console.log(modalData);
         updateCostModal()
     });
     
@@ -831,7 +831,6 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        console.log(modalData);
         updateCostModal();
     });
 }
