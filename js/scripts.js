@@ -812,7 +812,7 @@ async function mainAccount () {
     
     document.getElementById('orderingModal').addEventListener('input', (event) => {
         modalData[event.target.id] = event.target.value;
-        console.log(modalData)l
+        console.log(modalData);
         updateCostModal()
     });
     
