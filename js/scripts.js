@@ -503,13 +503,6 @@ async function mainAccount () {
     // const orderData = testOrderData;
     // const routsData = testRoutsData;
 
-    let inputDate = document.getElementById('routDate');
-    let inputTime = document.getElementById('routTime');
-    let inputSelect = document.getElementById('selectHours');
-    let inputPeopleCount = document.getElementById('peopleCount');
-    let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
-    let inputCarCheckBox = document.getElementById('carCheckBox');
-
     const getRoutGuidesPromises = orderData.map(async (order) => {
         const routGuideData = await getRoutGuidesData(order["route_id"]);
         const guide = routGuideData.find(g => g['id'] === order['guide_id']);
@@ -532,6 +525,13 @@ async function mainAccount () {
         const end = start + rowsPerPage;
         const paginatedData = arrData.slice(start, end);
         const propertiesOrder = ['route_id', 'date', 'price'];
+
+        let inputDate = document.getElementById('routDate');
+        let inputTime = document.getElementById('routTime');
+        let inputSelect = document.getElementById('selectHours');
+        let inputPeopleCount = document.getElementById('peopleCount');
+        let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+        let inputCarCheckBox = document.getElementById('carCheckBox');
 
         for (key in paginatedData) {
             for (routKey in routsArrData) {
@@ -708,6 +708,7 @@ async function mainAccount () {
         });
         return liEl;
     }
+
     displayList(updatedOrderData, routsData, rows, currentPage);
     displayPagination(updatedOrderData, rows);
 
