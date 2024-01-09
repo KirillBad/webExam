@@ -872,7 +872,7 @@ if (toastTriggerDelete) {
 const toastTriggerUpdate = document.getElementById('deleteConfirmBtn')
 const toastLiveExampleUpdate = document.getElementById('deleteOrder')
 if (toastTriggerUpdate) {
-  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampUpdate)
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleUpdate)
   toastTriggerUpdate.addEventListener('click', () => {
     toastBootstrap.show()
   })
