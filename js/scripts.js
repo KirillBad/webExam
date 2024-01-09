@@ -610,7 +610,8 @@ async function mainAccount () {
             deletebutton.setAttribute('data-bs-target', '#deleteModal');
 
             document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
-                await deleteOrder(paginatedData[key]["id"]);
+                const idForDelete = paginatedData[key]["id"];
+                await deleteOrder(idForDelete);
                 mainAccount();
             });
 
