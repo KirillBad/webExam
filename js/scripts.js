@@ -630,7 +630,7 @@ async function mainAccount () {
                 return function() {
                     document.getElementById("editOrderBtn").addEventListener("click", async () => {
                         let idForSelect = paginatedData[currentKey]["id"];
-                        await deleteOrder(idForSelect);
+                        await updateOrder(idForSelect, modalData);
                         mainAccount();
                     });
                 };
