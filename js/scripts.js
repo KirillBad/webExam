@@ -815,7 +815,7 @@ async function mainAccount () {
         const target = event.target;
 
         if (target.type === 'checkbox') {
-            modalData[target.id] = target.checked;
+            modalData[target.id] = target.checked ? 1 : 0;
         } else {
             modalData[target.id] = target.value;
         }
@@ -827,7 +827,7 @@ async function mainAccount () {
         const target = event.target;
 
         if (target.type === 'checkbox') {
-            modalData[target.id] = target.checked;
+            modalData[target.id] = target.checked ? 1 : 0;
         } else {
             modalData[target.id] = target.value;
         }
