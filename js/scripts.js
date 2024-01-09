@@ -674,7 +674,7 @@ async function mainAccount () {
                         const minutes = currentTime.getMinutes();
                         if (((hour >= 9 && hour < 23) && (minutes === 0 || minutes === 30)) || (hour === 23 && minutes === 0)) {
                             await updateOrder(idForSelect, modalData);
-                            const toastLiveExampleConfirm = document.getElementById('orderConfirm');
+                            const toastLiveExampleConfirm = document.getElementById('updateOrder');
                             const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleConfirm);
                             toastBootstrap.show();
                             mainAccount();
