@@ -669,8 +669,6 @@ async function mainAccount () {
                 return function() {
                     document.getElementById("editOrderBtn").addEventListener("click", async () => {
                         let idForSelect = paginatedData[currentKey]["id"];
-                        const toastLiveExampleTime = document.getElementById('orderTime')
-                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleTime)
                         const currentTime = new Date(`2000-01-01T${modalData.time}`);
                         const hour = currentTime.getHours();
                         const minutes = currentTime.getMinutes();
@@ -681,7 +679,9 @@ async function mainAccount () {
                             toastBootstrap.show();
                             mainAccount();
                         }
-                        else {                    
+                        else {     
+                            const toastLiveExampleTime = document.getElementById('orderTime')
+                            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleTime)               
                             toastBootstrap.show();
                         };
                     });
