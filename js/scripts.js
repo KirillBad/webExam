@@ -250,35 +250,61 @@ async function paginationMain() {
 
     document.getElementById("routsSearch").addEventListener("keyup", function(e){
         let selectEl = document.getElementById("routsSelect");
-        const optionToSelect = Array.from(selectEl.options).find(option => option.textContent === "Выбрать");
-        optionToSelect.selected = true;
-        let searchText = e.target.value.toLowerCase();
-        const filteredData = trimedData.filter(item =>
-            item.name.toLowerCase().includes(searchText)
-        );
-        displayList(filteredData, rows, 1);
-        displayPagination(filteredData, rows);
-        const buttons = document.querySelectorAll('.pagination .page-link');
-        buttons.forEach(button => {
-            if (button.textContent.trim() === '1') {
-                button.parentElement.classList.add('active');
-            }
-        });
+
+        if (selectEl.value === "Выбрать") {
+            let searchText = e.target.value.toLowerCase();
+            const filteredData = trimedData.filter(item =>
+                item.name.toLowerCase().includes(searchText)
+            );
+            displayList(filteredData, rows, currentPage);
+            displayPagination(filteredData, rows);
+        }
+        else {
+            let selectedValue = document.getElementById("routsSelect").value;
+            const filteredDataSelect = trimedData.filter(item =>
+                item.mainObject.toLowerCase().includes(selectedValue.toLowerCase()));
+            let searchText = e.target.value.toLowerCase();
+            const filteredData = filteredDataSelect.filter(item =>
+                item.name.toLowerCase().includes(searchText)
+            );
+            displayList(filteredData, rows, currentPage);
+            displayPagination(filteredData, rows);
+        }
     })
 
     document.getElementById("routsSelect").addEventListener("change", function() {
         const selectedValue = this.value;
-        document.getElementById("routsSearch").value = "";
-        if (selectedValue !== "Выбрать") {
-            const filteredData = trimedData.filter(item =>
-                item.mainObject.toLowerCase().includes(selectedValue.toLowerCase())
+
+        searchValue = document.getElementById("routsSearch").value.toLowerCase();
+
+        if (searchValue != "") {
+            const filteredDataSearch = trimedData.filter(item =>
+                item.name.toLowerCase().includes(searchValue)
             );
-            displayList(filteredData, rows, 1);
-            displayPagination(filteredData, rows);
+            if (selectedValue !== "Выбрать") {
+                const filteredData = filteredDataSearch.filter(item =>
+                    item.mainObject.toLowerCase().includes(selectedValue.toLowerCase())
+                );
+                displayList(filteredData, rows, currentPage);
+                displayPagination(filteredData, rows);
+            }
+            else {
+                displayList(filteredDataSearch, rows, 1); 
+                displayPagination(filteredDataSearch, rows);
+            }
         }
         else {
-            displayList(trimedData, rows, 1); 
-            displayPagination(trimedData, rows);
+            if (selectedValue !== "Выбрать") {
+                const filteredData = trimedData.filter(item =>
+                    item.mainObject.toLowerCase().includes(selectedValue.toLowerCase())
+                );
+                displayList(filteredData, rows, 1);
+                displayPagination(filteredData, rows);
+            }
+            else {
+                displayList(trimedData, rows, 1); 
+                displayPagination(trimedData, rows);
+            }
         }
     })
 
