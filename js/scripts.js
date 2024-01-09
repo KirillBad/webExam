@@ -810,6 +810,8 @@ async function mainAccount () {
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
+
+        return totalPriceNoString 
     };
     
     document.getElementById('orderingModal').addEventListener('input', (event) => {
@@ -820,7 +822,7 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        updateCostModal()
+        modalData['price'] = updateCostModal()
     });
     
     document.getElementById('orderingModal').addEventListener('change', (event) => {
@@ -831,7 +833,7 @@ async function mainAccount () {
         } else {
             modalData[target.id] = target.value;
         }
-        updateCostModal();
+        modalData['price'] = updateCostModal()
     });
 }
 
@@ -864,6 +866,15 @@ const toastLiveExampleDelete = document.getElementById('deleteOrder')
 if (toastTriggerDelete) {
   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampleDelete)
   toastTriggerDelete.addEventListener('click', () => {
+    toastBootstrap.show()
+  })
+}
+
+const toastTriggerUpdate = document.getElementById('deleteConfirmBtn')
+const toastLiveExampleUpdate = document.getElementById('deleteOrder')
+if (toastTriggerUpdate) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExampUpdate)
+  toastTriggerUpdate.addEventListener('click', () => {
     toastBootstrap.show()
   })
 }
