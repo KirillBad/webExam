@@ -56,6 +56,22 @@ async function deleteOrder(orderId) {
     return content;
 }
 
+async function updateOrder(orderId, data) {
+    const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
+    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
+    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams(data).toString()
+    };
+    let response = await fetch(urlWithApiKey, requestOptions);
+    let content = await response.json();
+    return content;
+}
+
 function truncateStrings(data, maxLength, keys) {
     data.forEach(obj => {
         keys.forEach(key => {
@@ -588,8 +604,13 @@ async function mainAccount () {
                 document.getElementById("exampleModalLabel").textContent = "Редактирование заявки " + paginatedData[key]["id"]
                 document.getElementById("displayGuideName").textContent = "Гид: " + paginatedData[key]["guide_name"];
                 document.getElementById("displayRoutName").textContent = "Маршрут: " + paginatedData[key]["route_id"];
+                const updatedData = {};
                 inputDate.value = paginatedData[key]["date"];
                 inputDate.disabled = false;
+                if (inputDate.value !== paginatedData[key]["date"]) {
+                    updatedData.date = inputDate.value;
+                };
+                console.log(updatedData);
                 inputTime.value = paginatedData[key]["time"];
                 inputTime.disabled = false;
                 inputSelect.value = paginatedData[key]["duration"];
@@ -603,12 +624,21 @@ async function mainAccount () {
                 document.querySelector(".modal-footer").className = "modal-footer";
                 updateCostModal(paginatedData[key]["pricePerHour"]);
             });
+            editbutton.addEventListener("click", (function(currentKey) {
+                return function() {
+                    document.getElementById("editOrderBtn").addEventListener("click", async () => {
+                        let idForSelect = paginatedData[currentKey]["id"];
+                        await deleteOrder(idForSelect);
+                        mainAccount();
+                    });
+                };
+            })(key));
+
             const deletebutton = document.createElement('button');
             deletebutton.className = 'btn';
             deletebutton.innerHTML += `<i class="bi bi-trash"></i>`;
             deletebutton.setAttribute('data-bs-toggle', 'modal');
             deletebutton.setAttribute('data-bs-target', '#deleteModal');
-
             deletebutton.addEventListener("click", (function(currentKey) {
                 return function() {
                     document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
