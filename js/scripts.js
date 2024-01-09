@@ -608,13 +608,16 @@ async function mainAccount () {
             deletebutton.innerHTML += `<i class="bi bi-trash"></i>`;
             deletebutton.setAttribute('data-bs-toggle', 'modal');
             deletebutton.setAttribute('data-bs-target', '#deleteModal');
-            deletebutton.setAttribute('data-delete-key', key);
-            document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
-                const key = document.getElementById("deleteConfirmBtn").dataset.deleteKey;
-                let idForDelete = paginatedData[key]["id"];
-                await deleteOrder(idForDelete);
-                mainAccount();
-            });;
+
+            deletebutton.addEventListener("click", (function(currentKey) {
+                return function() {
+                    document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
+                        let idForDelete = paginatedData[currentKey]["id"];
+                        await deleteOrder(idForDelete);
+                        mainAccount();
+                    });
+                };
+            })(key));
 
             thWithButton.appendChild(watchbutton);
             thWithButton.appendChild(editbutton);
