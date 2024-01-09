@@ -419,7 +419,7 @@ async function paginationMain() {
         })
     }
 
-    let inputDate = document.getElementById('routDate');
+    let inputDate = document.getElementById('date');
     let inputTime = document.getElementById('routTime');
     let inputSelect = document.getElementById('selectHours');
     let inputPeopleCount = document.getElementById('peopleCount');
