@@ -751,9 +751,9 @@ async function mainAccount () {
         routDate : '',
         routTime : '',
         selectHours : '',
-        peopleCount : 0,
-        tourGuideCheckBox : '',
-        carCheckBox : ''
+        peopleCount : '',
+        tourGuideCheckBox : Boolean,
+        carCheckBox : Boolean
     };
     function updateCostModal(priceHour) {
         const publicHolidaysList = [
@@ -818,13 +818,21 @@ async function mainAccount () {
     };
     
     document.getElementById('orderingModal').addEventListener('input', (event) => {
-        modalData[event.target.id] = event.target.value;
+        if (target.event.type === 'checkbox') {
+            modalData[target.event.id] = target.event.checked;
+        } else {
+            modalData[target.event.id] = target.event.value;
+        }
         console.log(modalData);
         updateCostModal()
     });
     
     document.getElementById('orderingModal').addEventListener('change', (event) => {
-        modalData[event.target.id] = event.target.value;
+        if (target.event.type === 'checkbox') {
+            modalData[target.event.id] = target.event.checked;
+        } else {
+            modalData[target.event.id] = target.event.value;
+        }
         console.log(modalData);
         updateCostModal();
     });
