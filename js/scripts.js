@@ -517,6 +517,13 @@ async function mainAccount () {
 
     const updatedOrderData = await Promise.all(getRoutGuidesPromises);
 
+    let inputDate = document.getElementById('routDate');
+    let inputTime = document.getElementById('routTime');
+    let inputSelect = document.getElementById('selectHours');
+    let inputPeopleCount = document.getElementById('peopleCount');
+    let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
+    let inputCarCheckBox = document.getElementById('carCheckBox');
+
     function displayList(arrData, routsArrData, rowsPerPage, page) {
         const tableEl = document.getElementById('tableOrders');
         tableEl.innerHTML = ''; 
@@ -526,19 +533,12 @@ async function mainAccount () {
         const paginatedData = arrData.slice(start, end);
         const propertiesOrder = ['route_id', 'date', 'price'];
 
-        for (key in paginatedData) {
-            for (routKey in routsArrData) {
+        for (let key in paginatedData) {
+            for (let routKey in routsArrData) {
                 if (routsArrData[routKey]["id"] === paginatedData[key]["route_id"]) {
                     paginatedData[key]["route_id"] = routsArrData[routKey]["name"];
                 };
             };
-
-            let inputDate = document.getElementById('routDate');
-            let inputTime = document.getElementById('routTime');
-            let inputSelect = document.getElementById('selectHours');
-            let inputPeopleCount = document.getElementById('peopleCount');
-            let inputTourGuideCheckBox = document.getElementById('tourGuideCheckBox');
-            let inputCarCheckBox = document.getElementById('carCheckBox');
 
             const newRow = document.createElement('tr');
             const th = document.createElement('th');
@@ -546,7 +546,7 @@ async function mainAccount () {
             th.textContent = parseInt(key) + 1;
             newRow.appendChild(th);
 
-            for (prop of propertiesOrder) {
+            for (let prop of propertiesOrder) {
                 const th = document.createElement('th');
                 th.setAttribute('scope', 'col');
                 th.textContent = `${paginatedData[key][prop]}`;
@@ -771,21 +771,6 @@ async function mainAccount () {
         document.getElementById("totalPriceDisplay").textContent = totalPrice;
     
         updateCostModal.guidePricePerHour = guidePricePerHour;
-
-        // document.getElementById("btnSendOrder").addEventListener("click", async () => {
-        //     const sendingOrderData = {
-        //         guide_id: selectedTourGuideId,
-        //         route_id : selectedRoutId,
-        //         date : inputDate.value,
-        //         time: inputTime.value,
-        //         duration : inputSelect.value.split(' ')[0],
-        //         persons : inputPeopleCount.value,
-        //         price : totalPriceNoString,
-        //         optionFirst : inputTourGuideCheckBox.checked ? 1 : 0,
-        //         optionSecond : inputCarCheckBox.checked ? 1 : 0
-        //     };
-        //     await sendOrderData(sendingOrderData);
-        // });
     };
     
     document.getElementById('orderingModal').addEventListener('input', () => {
