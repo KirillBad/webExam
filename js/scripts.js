@@ -609,11 +609,13 @@ async function mainAccount () {
             deletebutton.setAttribute('data-bs-toggle', 'modal');
             deletebutton.setAttribute('data-bs-target', '#deleteModal');
 
-            document.getElementById("deleteConfirmBtn").addEventListener("click", (function(currentKey) {
-                return async function() {
-                    let idForDelete = paginatedData[currentKey]["id"];
-                    await deleteOrder(idForDelete);
-                    mainAccount();
+            deletebutton.addEventListener("click", (function(currentKey) {
+                return function() {
+                    document.getElementById("deleteConfirmBtn").addEventListener("click", async () => {
+                        let idForDelete = paginatedData[currentKey]["id"];
+                        await deleteOrder(idForDelete);
+                        mainAccount();
+                    });
                 };
             })(key));
 
