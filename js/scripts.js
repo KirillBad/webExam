@@ -17,7 +17,6 @@ async function getRoutsData() {
     let response = await fetch(urlWithApiKey);
     let content = await response.json();
     return content;
->>>>>>> fbb0924e602f03f6dfe2ec4082b3dfd4e749c203
 };
 
 async function getRoutGuidesData(routId) {
