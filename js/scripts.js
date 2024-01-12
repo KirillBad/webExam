@@ -943,6 +943,5 @@ if (toastTriggerUpdate) {
     toastBootstrap.show()
   })
 }
-
 paginationMain();
 mainAccount();
