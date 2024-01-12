@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
 async function getRoutesData() {
     try {
@@ -10,15 +9,6 @@ async function getRoutesData() {
     } catch (error) {
         console.error('Ошибка загрузки данных маршрутов:', error);
     }
-=======
-const apiKey = '';
-async function getRoutsData() {
-    const apiUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes';
-    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    let response = await fetch(urlWithApiKey);
-    let content = await response.json();
-    return content;
->>>>>>> fbb0924e602f03f6dfe2ec4082b3dfd4e749c203
 };
 
 async function getRoutGuidesData(routId) {
