@@ -944,5 +944,5 @@ if (toastTriggerUpdate) {
   })
 }
 
-paginationMain()
-mainAccount()
+paginationMain();
+mainAccount();
