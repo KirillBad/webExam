@@ -1,69 +1,93 @@
 const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
-async function getRoutsData() {
-    const apiUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes';
-    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    let response = await fetch(urlWithApiKey);
-    let content = await response.json();
-    return content;
+async function getRoutesData() {
+    try {
+        const apiUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes';
+        const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+        let response = await fetch(urlWithApiKey);
+        let content = await response.json();
+        return content;
+    } catch (error) {
+        console.error('Ошибка загрузки данных маршрутов:', error);
+    }
 };
 
 async function getRoutGuidesData(routId) {
-    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes/${routId}/guides`;
-    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    let response = await fetch(urlWithApiKey);
-    let content = await response.json();
-    return content;
+    try {
+        const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes/${routId}/guides`;
+        const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+        let response = await fetch(urlWithApiKey);
+        let content = await response.json();
+        return content;
+    } catch (error) {
+        console.error('Ошибка загрузки данных гидов:', error);
+    }
 };
 
 async function sendOrderData(data) {
-    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
-    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams(data).toString()
-    };
-    let response = await fetch(urlWithApiKey, requestOptions);
-    let content = await response.json();
-    return content;
+    try {
+        const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
+        const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(data).toString()
+        };
+        let response = await fetch(urlWithApiKey, requestOptions);
+        let content = await response.json();
+        return content;
+    } catch (error) {
+        console.error('Ошибка отправки данных заказа:', error);
+    }
 };
 
 async function getOrderData() {
-    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
-    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    let response = await fetch(urlWithApiKey);
-    let content = await response.json();
-    return content;
+    try {
+        const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders`;
+        const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+        let response = await fetch(urlWithApiKey);
+        let content = await response.json();
+        return content;
+    } catch (error) {
+        console.error('Ошибка загрузки данных заказа:', error);
+    }
 };
 
 async function deleteOrder(orderId) {
-    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
-    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    let response = await fetch(urlWithApiKey, {
-        method : "DELETE", 
-        headers : {
-            'Content-Type': 'application/json'
-        }
-    });
-    let content = await response.json();
-    return content;
+    try {
+        const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
+        const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+        let response = await fetch(urlWithApiKey, {
+            method : "DELETE", 
+            headers : {
+                'Content-Type': 'application/json'
+            }
+        });
+        let content = await response.json();
+        return content;
+    } catch (error) {
+        console.error('Ошибка удаления данных заказа:', error);
+    }
 }
 
 async function updateOrder(orderId, data) {
-    const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
-    const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
-    const requestOptions = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams(data).toString()
-    };
-    let response = await fetch(urlWithApiKey, requestOptions);
-    let content = await response.json();
-    return content;
+    try {
+        const apiUrl = `http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders/${orderId}`;
+        const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(data).toString()
+        };
+        let response = await fetch(urlWithApiKey, requestOptions);
+        let content = await response.json();
+        return content;
+    } catch (error) {
+        console.error('Ошибка обновления данных заказа:', error);
+    }
 }
 
 function truncateStrings(data, maxLength, keys) {
