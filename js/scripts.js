@@ -1,5 +1,5 @@
 const apiKey = '3c7a9230-b3c9-4927-99d1-c9180f2d30c8';
-async function getRoutesData() {
+async function getRoutsData() {
     try {
         const apiUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes';
         const urlWithApiKey = `${apiUrl}?api_key=${apiKey}`;
